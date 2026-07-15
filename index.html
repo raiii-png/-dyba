@@ -100,6 +100,22 @@
 
   canvas#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 30; }
 
+  /* ---- blind box ---- */
+  #boxCanvas { width: min(200px, 54vw); height: auto; margin: 8px auto 0; cursor: pointer; touch-action: manipulation; transition: transform .2s; }
+  #boxCanvas:hover { transform: translateY(-3px); }
+  #boxCanvas.shake { animation: shake .5s ease; }
+  #boxCanvas.hide { display: none; }
+  @keyframes shake { 0%,100%{transform:translate(0,0) rotate(0)} 15%{transform:translate(-4px,0) rotate(-4deg)} 35%{transform:translate(5px,-2px) rotate(5deg)} 55%{transform:translate(-5px,0) rotate(-5deg)} 75%{transform:translate(4px,-2px) rotate(4deg)} }
+  .bx-result { display: none; flex-direction: column; align-items: center; }
+  .bx-result.show { display: flex; animation: rise .6s ease both; }
+  #charCanvas { width: min(200px, 54vw); height: auto; }
+  .bx-name { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; font-size: 1.6rem; margin-top: 4px; }
+  .bx-blurb { font-size: .92rem; color: var(--ink-soft); margin-top: 4px; }
+  .bx-rare { font-size: .74rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin-top: 8px; }
+  .bx-rare.secret { color: #c8890f; font-weight: 700; }
+  .bx-hint { font-size: .82rem; color: var(--ink-soft); margin-top: 14px; opacity: .85; }
+  .bx-hint.hide { display: none; }
+
   /* ---- burned ---- */
   #burned { display: none; }
   #burned.show { display: flex; }
@@ -154,11 +170,32 @@
       <p class="lead">inget nggak pas rapat IBASS? gw nunjuk sesuatu, kirain apaan — taunya kecoa, terus lari ke kaki lu. nih dia balik lagi. coba pencet, usir kayak dulu.</p>
       <div class="catch" id="catch">cari &amp; pencet dia...</div>
       <div class="cue show" id="cueBug">
+        <a href="#blindbox"><span>lanjut ke bawah</span><span class="chev">˅</span></a>
+      </div>
+    </section>
+
+    <!-- 3) BLIND BOX -->
+    <section class="screen" id="blindbox">
+      <div class="kicker">satu lagi</div>
+      <h1 class="title">blind box</h1>
+      <p class="lead">ada 5 karakter + 1 secret langka di dalem. lu dapet yang mana? pencet kotaknya buat buka.</p>
+
+      <canvas id="boxCanvas" width="520" height="520" aria-label="kotak blind box"></canvas>
+
+      <div class="bx-result" id="bxResult">
+        <canvas id="charCanvas" width="520" height="520" aria-label="karakter yang didapat"></canvas>
+        <div class="bx-name" id="bxName"></div>
+        <div class="bx-blurb" id="bxBlurb"></div>
+        <div class="bx-rare" id="bxRare"></div>
+      </div>
+
+      <div class="bx-hint" id="bxHint">pencet kotaknya</div>
+      <div class="cue show" id="cueBox">
         <a href="#note"><span>lanjut ke bawah</span><span class="chev">˅</span></a>
       </div>
     </section>
 
-    <!-- 3) NOTE (final) -->
+    <!-- 4) NOTE (final) -->
     <section class="screen" id="note">
       <div class="msg">
         <h2 class="seq" id="s0">HBD, dybb</h2>
@@ -390,6 +427,141 @@
       }, 260 + k * 620);
     });
   }
+
+  /* ---------- blind box: 3D pixel (voxel) characters ---------- */
+  var PAL = {
+    ".": null, W: "#f3ede1", C: "#e9d7ae", b: "#7a5233", k: "#4f3620",
+    g: "#6f9c5f", G: "#517d43", p: "#e3a2b4", P: "#cf7d95", y: "#eac54b",
+    o: "#d98b3d", r: "#d05666", a: "#a49a8c", x: "#34302a", D: "#e6b833",
+    d: "#f8de84", u: "#6f97c9", s: "#e9ba8b"
+  };
+  function shade(hex, f) {
+    var n = parseInt(hex.slice(1), 16);
+    var R = Math.min(255, Math.round(((n >> 16) & 255) * f));
+    var Gc = Math.min(255, Math.round(((n >> 8) & 255) * f));
+    var B = Math.min(255, Math.round((n & 255) * f));
+    return "rgb(" + R + "," + Gc + "," + B + ")";
+  }
+  function voxelsFrom(layers) {
+    var v = [];
+    for (var y = 0; y < layers.length; y++) {
+      var layer = layers[y];
+      for (var z = 0; z < layer.length; z++) {
+        var row = layer[z];
+        for (var xi = 0; xi < row.length; xi++) {
+          var ch = row[xi];
+          if (ch !== "." && PAL[ch]) v.push({ x: xi, y: y, z: z, c: PAL[ch] });
+        }
+      }
+    }
+    return v;
+  }
+  function renderVox(canvas, layers) {
+    var ctx = canvas.getContext("2d");
+    var CW = canvas.width, CH = canvas.height;
+    ctx.clearRect(0, 0, CW, CH);
+    var vox = voxelsFrom(layers);
+    if (!vox.length) return;
+    // bounds in unit space (U). north vertex: xU=x-z, yU=(x+z)/2 - y
+    var minX = 1e9, maxX = -1e9, minY = 1e9, maxY = -1e9;
+    vox.forEach(function (p) {
+      var xU = p.x - p.z, yU = (p.x + p.z) / 2 - p.y;
+      if (xU - 1 < minX) minX = xU - 1;
+      if (xU + 1 > maxX) maxX = xU + 1;
+      if (yU < minY) minY = yU;
+      if (yU + 2 > maxY) maxY = yU + 2;
+    });
+    var spanX = maxX - minX, spanY = maxY - minY;
+    var T = Math.min((CW * 0.82) / spanX, (CH * 0.82) / spanY);
+    var offX = CW / 2 - ((minX + maxX) / 2) * T;
+    var offY = CH / 2 - ((minY + maxY) / 2) * T;
+    vox.sort(function (a, b) { return (a.x + a.z) - (b.x + b.z) || a.y - b.y || b.z - a.z; });
+    vox.forEach(function (p) {
+      var sx = offX + (p.x - p.z) * T;
+      var sy = offY + ((p.x + p.z) / 2 - p.y) * T;
+      var top = shade(p.c, 1.16), left = shade(p.c, 0.82), right = shade(p.c, 0.6);
+      // top
+      ctx.beginPath();
+      ctx.moveTo(sx, sy); ctx.lineTo(sx + T, sy + T / 2); ctx.lineTo(sx, sy + T); ctx.lineTo(sx - T, sy + T / 2);
+      ctx.closePath(); ctx.fillStyle = top; ctx.fill();
+      // left
+      ctx.beginPath();
+      ctx.moveTo(sx - T, sy + T / 2); ctx.lineTo(sx, sy + T); ctx.lineTo(sx, sy + 2 * T); ctx.lineTo(sx - T, sy + 1.5 * T);
+      ctx.closePath(); ctx.fillStyle = left; ctx.fill();
+      // right
+      ctx.beginPath();
+      ctx.moveTo(sx, sy + T); ctx.lineTo(sx + T, sy + T / 2); ctx.lineTo(sx + T, sy + 1.5 * T); ctx.lineTo(sx, sy + 2 * T);
+      ctx.closePath(); ctx.fillStyle = right; ctx.fill();
+    });
+  }
+
+  var BOX = [
+    ["CCCC", "CCCC", "CCCC", "CCCC"],
+    ["CCCC", "CCCC", "CCCC", "CCCC"],
+    ["CCCC", "CCCC", "CCCC", "CCCC"],
+    ["DDDD", "DDDD", "DDDD", "DDDD"],
+    [".dd.", ".dd."]
+  ];
+  var CHARS = [
+    { name: "Kecoa", blurb: "yang lari ke kaki lu waktu itu", w: 19, layers: [
+      [".....", ".bbb.", "bbbbb", ".bbb."],
+      [".....", "..k..", ".bbb.", ".k.k."] ] },
+    { name: "Lily", blurb: "bunga kesukaan lu", w: 19, layers: [
+      [".....", ".....", "..G..", ".....", "....."],
+      [".....", ".....", "..G..", ".....", "....."],
+      ["..W..", ".WWW.", "WWGWW", ".WWW.", "..W.."],
+      [".....", ".....", "..y..", ".....", "....."] ] },
+    { name: "Kue", blurb: "jangan lupa make a wish", w: 19, layers: [
+      ["aaaa", "aaaa"], [".CC.", ".CC."], [".PP.", ".PP."],
+      ["..r.", "...."], ["..y.", "...."] ] },
+    { name: "Beruang", blurb: "buat peluk pas sedih", w: 19, layers: [
+      ["....", ".bb.", ".bb."],
+      ["....", "bbbb", "bbbb"],
+      ["....", "bbbb", "bCCb"],
+      ["....", "b..b", "...."] ] },
+    { name: "Hantu", blurb: "cuma mau ngucapin, kok", w: 19, layers: [
+      ["WWWW", "WWWW"], ["WWWW", "WWWW"], ["WWWW", "WxxW"], [".WW.", ".WW."] ] },
+    { name: "Golden mpruy", blurb: "SECRET, langka banget", w: 6, secret: true, layers: [
+      ["DDD", "DDD"], ["DDD", "DDD"], ["DDD", "DDD"], ["ddd", "ddd"], ["d.d", "...."] ] }
+  ];
+  function pickChar() {
+    var total = 0; CHARS.forEach(function (c) { total += c.w; });
+    var r = Math.random() * total;
+    for (var i = 0; i < CHARS.length; i++) { r -= CHARS[i].w; if (r <= 0) return CHARS[i]; }
+    return CHARS[0];
+  }
+  function initBlindBox() {
+    var boxC = document.getElementById("boxCanvas");
+    var charC = document.getElementById("charCanvas");
+    var result = document.getElementById("bxResult");
+    var nameEl = document.getElementById("bxName");
+    var blurbEl = document.getElementById("bxBlurb");
+    var rareEl = document.getElementById("bxRare");
+    var hintEl = document.getElementById("bxHint");
+    if (!boxC) return;
+    renderVox(boxC, BOX);
+    var opened = false;
+    boxC.addEventListener("click", function () {
+      if (opened) return; opened = true;
+      tone(392, 0.12, "triangle", 0.14, 0);
+      tone(523, 0.12, "triangle", 0.14, 0.1);
+      boxC.classList.add("shake");
+      setTimeout(function () {
+        var pick = pickChar();
+        renderVox(charC, pick.layers);
+        nameEl.textContent = pick.secret ? pick.name : pick.name;
+        blurbEl.textContent = pick.blurb;
+        rareEl.textContent = pick.secret ? "secret" : "karakter";
+        rareEl.className = "bx-rare" + (pick.secret ? " secret" : "");
+        boxC.classList.add("hide");
+        hintEl.classList.add("hide");
+        result.classList.add("show");
+        if (pick.secret) { chord(); confetti(); }
+        else { tone(659, 0.5, "triangle", 0.13, 0); tone(784, 0.6, "sine", 0.1, 0.06); }
+      }, 520);
+    });
+  }
+  initBlindBox();
 
   /* ---------- confetti (canvas, from fajarghifar idea, no emoji) ---------- */
   function confetti() {
