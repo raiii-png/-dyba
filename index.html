@@ -14,13 +14,8 @@
     --paper2: #efe8dc;
     --ink: #453a30;
     --ink-soft: #837465;
-    --wire: #a99b8b;
-    --wire-hi: #d8ccbb;
-    --ribbon-a: #fffaf3;
-    --ribbon-b: #f6e6ea;
-    --rose: #cf9aab;
-    --sage: #93a986;
     --gold: #bb9a4c;
+    --sage: #93a986;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,51 +31,28 @@
     background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
     line-height: 1.6;
+    overflow-x: hidden;
   }
 
   .wrap { max-width: 560px; margin: 0 auto; padding: 0 22px; }
 
-  /* ---------- section: build ---------- */
+  /* ---------- build ---------- */
   #build {
     min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 40px 22px 28px;
-    position: relative;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 40px 22px 28px; position: relative;
   }
-
-  .kicker {
-    font-size: .74rem;
-    letter-spacing: .3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 10px;
-  }
-  #build h1 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 600;
-    font-size: clamp(2rem, 8vw, 2.8rem);
-    color: var(--ink);
-  }
-  .lead {
-    color: var(--ink-soft);
-    max-width: 380px;
-    margin: 14px auto 4px;
-    font-size: 1rem;
-  }
+  .kicker { font-size: .74rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  #build h1 { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; font-size: clamp(2rem, 8vw, 2.8rem); }
+  .lead { color: var(--ink-soft); max-width: 390px; margin: 14px auto 4px; font-size: 1rem; }
 
   .lily-wrap { width: min(320px, 78vw); aspect-ratio: 1; margin: 10px auto 2px; }
   #lily { width: 100%; height: 100%; overflow: visible; }
 
   .petal-fill {
-    opacity: 0;
-    transform: scale(0.15);
-    transform-box: fill-box;
-    transform-origin: bottom center;
-    transition: transform .75s cubic-bezier(.2,.85,.3,1.15), opacity .6s ease;
+    opacity: 0; transform: scale(0.12);
+    transform-box: fill-box; transform-origin: bottom center;
+    transition: transform .8s cubic-bezier(.2,.85,.3,1.2), opacity .5s ease;
   }
   .petal-fill.placed { opacity: 1; transform: scale(1); }
 
@@ -89,89 +61,59 @@
   #lily.bloom { animation: sway 6s ease-in-out infinite; transform-origin: 50% 90%; }
   @keyframes sway { 0%,100%{ transform: rotate(-1deg);} 50%{ transform: rotate(1deg);} }
 
-  .counter {
-    font-size: .78rem; letter-spacing: .18em; text-transform: uppercase;
-    color: var(--gold); min-height: 1.1em; margin-top: 2px;
-    font-variant-numeric: tabular-nums;
-  }
+  .counter { font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); min-height: 1.1em; margin-top: 2px; font-variant-numeric: tabular-nums; }
 
   .tray { display: flex; flex-wrap: wrap; gap: 9px; justify-content: center; margin: 16px auto 0; max-width: 380px; }
   .chip {
-    font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: .88rem;
-    color: var(--ink);
-    background: rgba(255,255,255,.6);
-    border: 1.5px solid #e2d6c4;
-    border-radius: 12px;
-    padding: 9px 13px;
-    cursor: pointer;
-    display: inline-flex; align-items: center; gap: 7px;
+    font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: .88rem; color: var(--ink);
+    background: rgba(255,255,255,.6); border: 1.5px solid #e2d6c4; border-radius: 12px;
+    padding: 9px 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
     transition: transform .18s, background .18s, box-shadow .18s, opacity .35s;
   }
-  .chip::before {
-    content: ""; width: 13px; height: 13px; border-radius: 62% 38% 62% 38%;
-    border: 1.5px solid var(--wire); background: transparent;
-  }
+  .chip::before { content: ""; width: 14px; height: 12px; border-radius: 60% 40% 60% 40%; border: 2px solid #cbb58e; background: repeating-linear-gradient(90deg,#e7d6b8 0 1px,transparent 1px 2.5px); }
   .chip:hover { transform: translateY(-2px); background: #fff; box-shadow: 0 6px 16px -9px rgba(69,58,48,.5); }
   .chip:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
   .chip.gone { opacity: 0; transform: scale(.6); pointer-events: none; }
 
-  .scrollcue {
-    margin-top: 26px;
-    opacity: 0; transform: translateY(-6px);
-    transition: opacity .6s ease, transform .6s ease;
-    pointer-events: none;
-    color: var(--ink-soft);
-    font-size: .9rem;
-  }
+  .scrollcue { margin-top: 26px; opacity: 0; transform: translateY(-6px); transition: opacity .6s, transform .6s; pointer-events: none; color: var(--ink-soft); font-size: .9rem; }
   .scrollcue.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
   .scrollcue a { color: var(--ink-soft); text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; gap: 4px; }
   .scrollcue .chev { font-size: 1.3rem; animation: bob 1.6s ease-in-out infinite; }
   @keyframes bob { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(5px);} }
 
-  /* ---------- section: note ---------- */
-  #note { display: none; padding: 60px 0 90px; }
+  /* ---------- note ---------- */
+  #note { display: none; padding: 60px 0 100px; }
   #note.reveal { display: block; }
   #note .inner { animation: rise .8s ease both; }
   @keyframes rise { from { opacity: 0; transform: translateY(16px);} to { opacity: 1; transform: translateY(0);} }
+  #note h2 { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; font-size: clamp(1.9rem, 8vw, 2.7rem); text-align: center; }
 
-  #note h2 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 600;
-    font-size: clamp(1.7rem, 7vw, 2.5rem);
-    text-align: center;
-    color: var(--ink);
-  }
-  #note .sub { text-align: center; color: var(--gold); font-family: 'Playfair Display', serif; font-style: italic; margin: 6px 0 26px; }
-
-  .card {
-    background: rgba(255,255,255,.55);
-    border: 1px solid rgba(255,255,255,.7);
-    border-radius: 18px;
-    padding: 26px 24px;
-    line-height: 1.85;
-    color: #3f342b;
-    box-shadow: 0 20px 44px -26px rgba(69,58,48,.4);
-  }
+  .card { background: rgba(255,255,255,.55); border: 1px solid rgba(255,255,255,.7); border-radius: 18px; padding: 28px 26px; line-height: 1.9; color: #3f342b; box-shadow: 0 20px 44px -26px rgba(69,58,48,.4); margin-top: 22px; font-size: 1.06rem; }
   .card p { margin-bottom: 15px; }
   .card p:last-child { margin-bottom: 0; }
-  .card .sign { text-align: right; font-family: 'Playfair Display', serif; font-style: italic; color: var(--ink-soft); margin-top: 4px; }
-  .once { text-align: center; font-size: .8rem; color: var(--ink-soft); margin-top: 20px; opacity: .8; }
+  .card .sign { text-align: right; font-family: 'Playfair Display', serif; font-style: italic; color: var(--ink-soft); margin-top: 8px; }
+
+  .roach-hint { text-align: center; font-size: .86rem; color: var(--ink-soft); margin-top: 22px; }
+  .roach-hint a { color: var(--sage); font-weight: 600; text-decoration: none; border-bottom: 1px dashed var(--sage); }
+  .once { text-align: center; font-size: .8rem; color: var(--ink-soft); margin-top: 16px; opacity: .75; }
+
+  /* roach */
+  #roach { position: fixed; left: -60px; top: -60px; font-size: 30px; z-index: 40; cursor: pointer; user-select: none; will-change: left, top, transform; transition: left .9s linear, top .9s linear, transform .25s ease; display: none; filter: drop-shadow(0 2px 2px rgba(0,0,0,.25)); }
+  #roach.on { display: block; }
+  @keyframes wiggle { 0%,100%{ transform: rotate(var(--rot)) translateY(0);} 50%{ transform: rotate(var(--rot)) translateY(-1.5px);} }
+  #toast { position: fixed; left: 50%; bottom: 40px; transform: translateX(-50%) translateY(20px); background: rgba(69,58,48,.92); color: #fff; font-weight: 600; font-size: .9rem; padding: 10px 18px; border-radius: 999px; z-index: 60; opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s; }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
   /* ---------- burned ---------- */
-  #burned {
-    display: none;
-    min-height: 100dvh;
-    flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 40px 22px;
-  }
+  #burned { display: none; min-height: 100dvh; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 22px; }
   #burned.show { display: flex; }
   #burned .w { font-size: 3rem; margin-bottom: 8px; }
-  #burned h2 { font-family: 'Playfair Display', serif; font-weight: 600; font-size: clamp(1.5rem, 6vw, 2rem); color: var(--ink); }
+  #burned h2 { font-family: 'Playfair Display', serif; font-weight: 600; font-size: clamp(1.5rem, 6vw, 2rem); }
   #burned p { color: var(--ink-soft); margin-top: 10px; max-width: 340px; }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    #lily.bloom, .scrollcue .chev { animation: none; }
+    #lily.bloom, .scrollcue .chev, #roach { animation: none; }
   }
 </style>
 </head>
@@ -183,16 +125,15 @@
     <section id="build">
       <div class="kicker">buat dyb</div>
       <h1>hai, dyb 👋</h1>
-      <p class="lead">gw bikinin sesuatu. susun dulu ya bunganya — klik kelopaknya satu-satu, nyambungin ke rangka kawatnya.</p>
+      <p class="lead">gw bikinin sesuatu — bunga dari <strong>kawat bulu</strong>, kayak yang biasa lu bikin. susun dulu ya, klik kelopaknya satu-satu.</p>
 
       <div class="lily-wrap">
-        <svg id="lily" viewBox="0 0 400 400" role="img" aria-label="bunga lily dari rangka kawat">
+        <svg id="lily" viewBox="0 0 400 400" role="img" aria-label="bunga lily dari kawat bulu">
           <defs>
-            <radialGradient id="ribbon" cx="50%" cy="86%" r="72%">
-              <stop offset="0%" stop-color="#fbe4ec" />
-              <stop offset="55%" stop-color="#fff6ef" />
-              <stop offset="100%" stop-color="#fffdf9" />
-            </radialGradient>
+            <filter id="fuzz" x="-25%" y="-25%" width="150%" height="150%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="7" result="n" />
+              <feDisplacementMap in="SourceGraphic" in2="n" scale="3.4" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
           </defs>
           <g id="petals"></g>
           <g id="stamens"></g>
@@ -203,29 +144,28 @@
       <div class="tray" id="tray"></div>
 
       <div class="scrollcue" id="cue">
-        <a href="#note" id="cueLink">
-          <span>udah jadi — scroll ke bawah</span>
-          <span class="chev">˅</span>
-        </a>
+        <a href="#note" id="cueLink"><span>udah jadi — scroll ke bawah</span><span class="chev">˅</span></a>
       </div>
     </section>
 
     <!-- NOTE -->
     <section id="note">
       <div class="wrap inner">
-        <h2>selamat ultah, dyb</h2>
-        <div class="sub">(telat, gw tau — maaf ya wkwk)</div>
+        <h2>HBD, dybb 🎉</h2>
         <div class="card">
-          <p>Ini bunga lily — gw susun pake kawat, kayak yang biasa lu bikin. Lu suka lily kan? Yaudah, gw bikinin yang ini aja buat lu.</p>
-          <p>Btw inget nggak pas rapat IBASS? Gw nunjuk sesuatu sok tau, kirain apaan — eh taunya <strong>kecoa</strong>, terus malah lari ke <em>kaki lu</em> 🪳 Sori ya wkwk, tapi jujur itu ngakak parah sampe sekarang.</p>
-          <p>Yaudah gitu aja. Semoga tahun ini lancar, sehat-sehat, banyak senengnya. Makasih udah jadi temen yang asik.</p>
-          <p class="sign">— gw</p>
+          <p>Sorry gw gak ngasih seberapa. Semoga lu sukses, dan dikasih kesehatan — buat lu sama keluarga lu.</p>
+          <p class="sign">— dari mpruy</p>
         </div>
+        <p class="roach-hint">eh btw... ada yang lari-lari tuh 🪳 <a href="#" id="callRoach">pencet deh</a> <br />(inget kecoa pas rapat IBASS? wkwk)</p>
         <p class="once">(psst, ini cuma bisa dibuka sekali)</p>
       </div>
     </section>
 
   </main>
+
+  <!-- interactive roach + toast -->
+  <div id="roach" aria-hidden="true">🪳</div>
+  <div id="toast"></div>
 
   <!-- BURNED -->
   <section id="burned">
@@ -237,18 +177,17 @@
 <script>
 (function () {
   "use strict";
-  var VIEW_KEY = "gift-dyb-v2";
+  var VIEW_KEY = "gift-dyb-v3";
   var SVGNS = "http://www.w3.org/2000/svg";
 
   var main = document.getElementById("main");
   var burned = document.getElementById("burned");
 
-  // one-time gate
   var viewed = false;
   try { viewed = localStorage.getItem(VIEW_KEY) === "1"; } catch (e) {}
   if (viewed) { main.style.display = "none"; burned.classList.add("show"); return; }
 
-  // ---- build lily (wire frame + ribbon petals) ----
+  // ---- pipe-cleaner (kawat bulu) lily ----
   var petalsG = document.getElementById("petals");
   var stamensG = document.getElementById("stamens");
   var PETAL_D = "M200,200 C170,152 172,96 200,50 C228,96 230,152 200,200 Z";
@@ -258,72 +197,71 @@
     var slot = document.createElementNS(SVGNS, "g");
     slot.setAttribute("transform", "rotate(" + (i * 60) + " 200 200)");
 
-    // ribbon fill (revealed on place) — sits BEHIND the wire
-    var fill = document.createElementNS(SVGNS, "path");
-    fill.setAttribute("d", PETAL_D);
-    fill.setAttribute("fill", "url(#ribbon)");
-    fill.setAttribute("class", "petal-fill");
-    slot.appendChild(fill);
-    fills.push(fill);
+    // faint bare-wire guide (empty slot)
+    var guide = document.createElementNS(SVGNS, "path");
+    guide.setAttribute("d", PETAL_D);
+    guide.setAttribute("fill", "none");
+    guide.setAttribute("stroke", "#cdc0ab");
+    guide.setAttribute("stroke-width", "1.2");
+    guide.setAttribute("stroke-dasharray", "2 4");
+    slot.appendChild(guide);
 
-    // wire armature (always visible) — highlight + core stroke
-    var wireHi = document.createElementNS(SVGNS, "path");
-    wireHi.setAttribute("d", PETAL_D);
-    wireHi.setAttribute("fill", "none");
-    wireHi.setAttribute("stroke", "#e7dccb");
-    wireHi.setAttribute("stroke-width", "3.4");
-    wireHi.setAttribute("stroke-linejoin", "round");
-    slot.appendChild(wireHi);
+    // fuzzy pipe-cleaner petal (filled + furry edge)
+    var petal = document.createElementNS(SVGNS, "path");
+    petal.setAttribute("d", PETAL_D);
+    petal.setAttribute("fill", "#fffdf8");
+    petal.setAttribute("stroke", "#e3cfa8");
+    petal.setAttribute("stroke-width", "7");
+    petal.setAttribute("stroke-linejoin", "round");
+    petal.setAttribute("filter", "url(#fuzz)");
+    petal.setAttribute("class", "petal-fill");
+    slot.appendChild(petal);
 
-    var wire = document.createElementNS(SVGNS, "path");
-    wire.setAttribute("d", PETAL_D);
-    wire.setAttribute("fill", "none");
-    wire.setAttribute("stroke", "#a99b8b");
-    wire.setAttribute("stroke-width", "1.4");
-    wire.setAttribute("stroke-linejoin", "round");
-    slot.appendChild(wire);
-
-    // center vein wire
+    // inner fuzzy vein (the wire core)
     var vein = document.createElementNS(SVGNS, "path");
-    vein.setAttribute("d", "M200,196 C199,150 199,104 200,58");
+    vein.setAttribute("d", "M200,196 C199,150 199,104 200,60");
     vein.setAttribute("fill", "none");
-    vein.setAttribute("stroke", "#bcae9c");
-    vein.setAttribute("stroke-width", "1");
-    vein.setAttribute("stroke-dasharray", "2 4");
+    vein.setAttribute("stroke", "#ecdcbe");
+    vein.setAttribute("stroke-width", "3");
     vein.setAttribute("stroke-linecap", "round");
+    vein.setAttribute("filter", "url(#fuzz)");
+    vein.setAttribute("class", "petal-fill");
     slot.appendChild(vein);
 
     petalsG.appendChild(slot);
+    fills.push(petal); fills.push(vein);
   }
 
-  // ---- stamens (on bloom) ----
+  // ---- fuzzy stamens (on bloom) ----
   for (var t = 0; t < 6; t++) {
     var g = document.createElementNS(SVGNS, "g");
     g.setAttribute("transform", "rotate(" + (t * 60 + 30) + " 200 200)");
     var fil = document.createElementNS(SVGNS, "path");
     fil.setAttribute("d", "M200,198 C199,176 199,158 200,142");
     fil.setAttribute("fill", "none");
-    fil.setAttribute("stroke", "#c9b483");
-    fil.setAttribute("stroke-width", "2");
+    fil.setAttribute("stroke", "#e0c063");
+    fil.setAttribute("stroke-width", "3");
     fil.setAttribute("stroke-linecap", "round");
+    fil.setAttribute("filter", "url(#fuzz)");
     var anther = document.createElementNS(SVGNS, "ellipse");
     anther.setAttribute("cx", "200"); anther.setAttribute("cy", "137");
-    anther.setAttribute("rx", "4.4"); anther.setAttribute("ry", "9");
-    anther.setAttribute("fill", "#b98341");
+    anther.setAttribute("rx", "5"); anther.setAttribute("ry", "9");
+    anther.setAttribute("fill", "#e0a92e");
+    anther.setAttribute("filter", "url(#fuzz)");
     g.appendChild(fil); g.appendChild(anther);
     stamensG.appendChild(g);
   }
   var pistil = document.createElementNS(SVGNS, "circle");
-  pistil.setAttribute("cx", "200"); pistil.setAttribute("cy", "200"); pistil.setAttribute("r", "7");
-  pistil.setAttribute("fill", "#e6d3a6");
+  pistil.setAttribute("cx", "200"); pistil.setAttribute("cy", "200"); pistil.setAttribute("r", "8");
+  pistil.setAttribute("fill", "#efd98a"); pistil.setAttribute("filter", "url(#fuzz)");
   stamensG.appendChild(pistil);
 
-  // ---- tray ----
+  // ---- tray / assembly ----
   var tray = document.getElementById("tray");
   var counter = document.getElementById("counter");
   var cue = document.getElementById("cue");
   var note = document.getElementById("note");
-  var placed = 0, TOTAL = 6;
+  var placedPairs = 0, TOTAL = 6;
 
   for (var c = 0; c < TOTAL; c++) {
     var chip = document.createElement("button");
@@ -335,11 +273,13 @@
   function onPlace(ev) {
     var chip = ev.currentTarget;
     if (chip.classList.contains("gone")) return;
-    fills[placed].classList.add("placed");
-    placed++;
+    // each petal = 2 fill elements (petal + vein)
+    fills[placedPairs * 2].classList.add("placed");
+    fills[placedPairs * 2 + 1].classList.add("placed");
+    placedPairs++;
     chip.classList.add("gone");
-    counter.textContent = placed + " / " + TOTAL + " kelopak";
-    if (placed >= TOTAL) { counter.textContent = "jadi deh 🌿"; bloom(); }
+    counter.textContent = placedPairs + " / " + TOTAL + " kelopak";
+    if (placedPairs >= TOTAL) { counter.textContent = "jadi deh 🌿"; bloom(); }
   }
 
   function bloom() {
@@ -350,12 +290,75 @@
       note.classList.add("reveal");
       cue.classList.add("show");
     }, 1200);
-    // gentle auto-scroll after the reveal settles
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!reduce) {
-      setTimeout(function () { note.scrollIntoView({ behavior: "smooth", block: "start" }); }, 2400);
+      setTimeout(function () {
+        note.scrollIntoView({ behavior: "smooth", block: "start" });
+        startRoach();
+      }, 2600);
+    } else {
+      setTimeout(startRoach, 1400);
     }
   }
+
+  // ---- interactive kecoa ----
+  var roach = document.getElementById("roach");
+  var toast = document.getElementById("toast");
+  var roachTimer = null, roachAlive = false;
+
+  function rnd(min, max) { return Math.random() * (max - min) + min; }
+
+  function crawlTo(x, y) {
+    var cx = parseFloat(roach.style.left) || x;
+    var cy = parseFloat(roach.style.top) || y;
+    var ang = Math.atan2(y - cy, x - cx) * 180 / Math.PI + 90;
+    roach.style.setProperty("--rot", ang + "deg");
+    roach.style.transform = "rotate(" + ang + "deg)";
+    roach.style.left = x + "px";
+    roach.style.top = y + "px";
+  }
+
+  function wander() {
+    if (!roachAlive) return;
+    var w = window.innerWidth, h = window.innerHeight;
+    crawlTo(rnd(30, w - 50), rnd(h * 0.35, h - 70));
+    roachTimer = setTimeout(wander, rnd(900, 1600));
+  }
+
+  function startRoach() {
+    if (roachAlive) return;
+    roachAlive = true;
+    roach.classList.add("on");
+    roach.style.left = (window.innerWidth * 0.15) + "px";
+    roach.style.top = (window.innerHeight - 60) + "px";
+    roachTimer = setTimeout(wander, 400);
+  }
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(function () { toast.classList.remove("show"); }, 1600);
+  }
+
+  function scare() {
+    if (!roachAlive) return;
+    roachAlive = false;
+    clearTimeout(roachTimer);
+    // dart off screen fast
+    roach.style.transition = "left .5s ease-in, top .5s ease-in, transform .2s";
+    crawlTo(rnd(20, window.innerWidth - 40), window.innerHeight + 80);
+    showToast("KABUR 🪳💨 (kayak pas IBASS wkwk)");
+    setTimeout(function () {
+      roach.classList.remove("on");
+      roach.style.transition = "left .9s linear, top .9s linear, transform .25s ease";
+    }, 520);
+    // come back after a bit
+    setTimeout(startRoach, 4500);
+  }
+
+  roach.addEventListener("click", scare);
+  var callRoach = document.getElementById("callRoach");
+  if (callRoach) callRoach.addEventListener("click", function (e) { e.preventDefault(); startRoach(); });
 })();
 </script>
 </body>
