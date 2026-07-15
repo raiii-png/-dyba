@@ -306,6 +306,18 @@
   for (var p = 0; p < 6; p++) {
     var slot = document.createElementNS("http://www.w3.org/2000/svg", "g");
     slot.setAttribute("transform", "rotate(" + (p * 60) + " 200 200)");
+
+    // wireframe "kawat" outline shown as a target before the petal is placed
+    var ghost = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    ghost.setAttribute("d", PETAL_D);
+    ghost.setAttribute("fill", "none");
+    ghost.setAttribute("stroke", "#d9b8cb");
+    ghost.setAttribute("stroke-width", "1.3");
+    ghost.setAttribute("stroke-dasharray", "3 5");
+    ghost.setAttribute("stroke-linecap", "round");
+    ghost.setAttribute("opacity", "0.55");
+    slot.appendChild(ghost);
+
     var inner = document.createElementNS("http://www.w3.org/2000/svg", "g");
     inner.setAttribute("class", "petal-inner");
 
