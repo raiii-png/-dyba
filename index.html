@@ -4,225 +4,196 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex, nofollow" />
-<title>untuk dyb 🌷</title>
+<title>buat dyb</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --blush: #fdf6f9;
-    --blush2: #f7edf2;
-    --sage: #eef3ec;
-    --petal-a: #ffffff;
-    --petal-b: #ffe7f0;
-    --plum: #5a3d52;
-    --plum-soft: #7d5e75;
-    --gold: #c9a24b;
-    --sage-deep: #8fae82;
-    --spot: #b8506b;
+    --paper: #f6f2ea;
+    --paper2: #efe8dc;
+    --ink: #453a30;
+    --ink-soft: #837465;
+    --wire: #a99b8b;
+    --wire-hi: #d8ccbb;
+    --ribbon-a: #fffaf3;
+    --ribbon-b: #f6e6ea;
+    --rose: #cf9aab;
+    --sage: #93a986;
+    --gold: #bb9a4c;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html, body { height: 100%; }
+  html { scroll-behavior: smooth; }
+  html, body { min-height: 100%; }
 
   body {
     font-family: 'Quicksand', system-ui, sans-serif;
-    color: var(--plum);
-    background: linear-gradient(160deg, var(--blush) 0%, var(--blush2) 45%, var(--sage) 100%);
-    min-height: 100dvh;
-    overflow-x: hidden;
-    position: relative;
+    color: var(--ink);
+    background:
+      radial-gradient(120% 80% at 50% -10%, #fbf7f0 0%, rgba(251,247,240,0) 60%),
+      linear-gradient(170deg, var(--paper) 0%, var(--paper2) 100%);
+    background-attachment: fixed;
     -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
   }
 
-  /* floating petals background */
-  .bg-petals { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-  .bg-petals span {
-    position: absolute;
-    top: -8%;
-    width: 16px; height: 16px;
-    background: radial-gradient(circle at 30% 30%, #fff, var(--petal-b));
-    border-radius: 80% 0 80% 0;
-    opacity: .55;
-    animation: fall linear infinite;
-  }
-  @keyframes fall {
-    0%   { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-    10%  { opacity: .6; }
-    100% { transform: translateY(112vh) rotate(360deg); opacity: 0; }
-  }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 0 22px; }
 
-  .stage {
-    position: relative;
-    z-index: 1;
+  /* ---------- section: build ---------- */
+  #build {
     min-height: 100dvh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 32px 20px;
-  }
-
-  .screen {
-    width: 100%;
-    max-width: 560px;
     text-align: center;
-    display: none;
-    animation: rise .8s ease both;
-  }
-  .screen.active { display: block; }
-
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
+    padding: 40px 22px 28px;
+    position: relative;
   }
 
-  h1, h2 { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; line-height: 1.18; }
-
-  .eyebrow {
-    font-size: .78rem;
-    letter-spacing: .32em;
+  .kicker {
+    font-size: .74rem;
+    letter-spacing: .3em;
     text-transform: uppercase;
     color: var(--gold);
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
-
-  /* ---- intro ---- */
-  #intro h1 { font-size: clamp(2.4rem, 9vw, 3.6rem); color: var(--plum); }
-  #intro .sub { margin: 18px auto 30px; color: var(--plum-soft); font-size: 1.08rem; max-width: 420px; line-height: 1.65; }
-
-  .btn {
-    font-family: 'Quicksand', sans-serif;
+  #build h1 {
+    font-family: 'Playfair Display', Georgia, serif;
     font-weight: 600;
-    font-size: 1rem;
-    letter-spacing: .02em;
-    color: #fff;
-    background: linear-gradient(135deg, var(--sage-deep), #a7c39a);
-    border: none;
-    border-radius: 999px;
-    padding: 14px 34px;
-    cursor: pointer;
-    box-shadow: 0 10px 26px -10px rgba(143,174,130,.8);
-    transition: transform .25s, box-shadow .25s;
+    font-size: clamp(2rem, 8vw, 2.8rem);
+    color: var(--ink);
   }
-  .btn:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -12px rgba(143,174,130,.9); }
-  .btn:active { transform: translateY(0); }
-  .btn.gold { background: linear-gradient(135deg, var(--gold), #e0c179); box-shadow: 0 10px 26px -10px rgba(201,162,75,.8); }
+  .lead {
+    color: var(--ink-soft);
+    max-width: 380px;
+    margin: 14px auto 4px;
+    font-size: 1rem;
+  }
 
-  /* ---- assemble ---- */
-  #assemble h2 { font-size: clamp(1.6rem, 6vw, 2.1rem); }
-  #assemble .hint { color: var(--plum-soft); margin: 14px auto 6px; max-width: 430px; line-height: 1.6; font-size: 1rem; }
-
-  .lily-wrap { position: relative; width: min(340px, 82vw); margin: 6px auto 4px; aspect-ratio: 1; }
+  .lily-wrap { width: min(320px, 78vw); aspect-ratio: 1; margin: 10px auto 2px; }
   #lily { width: 100%; height: 100%; overflow: visible; }
-  #lily .receptacle { transition: opacity .5s; }
 
-  .petal-inner {
+  .petal-fill {
     opacity: 0;
-    transform: scale(0);
+    transform: scale(0.15);
     transform-box: fill-box;
     transform-origin: bottom center;
-    transition: transform .8s cubic-bezier(.18,.9,.28,1.25), opacity .6s ease;
+    transition: transform .75s cubic-bezier(.2,.85,.3,1.15), opacity .6s ease;
   }
-  .petal-inner.placed { opacity: 1; transform: scale(1); }
+  .petal-fill.placed { opacity: 1; transform: scale(1); }
 
-  #stamens { opacity: 0; transition: opacity .9s ease .2s; }
+  #stamens { opacity: 0; transition: opacity .9s ease .15s; }
   #lily.bloom #stamens { opacity: 1; }
-  #lily.bloom { animation: sway 5s ease-in-out infinite; transform-origin: 50% 92%; }
-  @keyframes sway { 0%,100%{ transform: rotate(-1.4deg);} 50%{ transform: rotate(1.4deg);} }
+  #lily.bloom { animation: sway 6s ease-in-out infinite; transform-origin: 50% 90%; }
+  @keyframes sway { 0%,100%{ transform: rotate(-1deg);} 50%{ transform: rotate(1deg);} }
 
-  .counter { font-size: .82rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin-top: 2px; min-height: 1.2em; }
+  .counter {
+    font-size: .78rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--gold); min-height: 1.1em; margin-top: 2px;
+    font-variant-numeric: tabular-nums;
+  }
 
-  .tray { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 16px auto 4px; max-width: 400px; }
+  .tray { display: flex; flex-wrap: wrap; gap: 9px; justify-content: center; margin: 16px auto 0; max-width: 380px; }
   .chip {
-    font-family: 'Quicksand', sans-serif;
-    font-weight: 600;
-    font-size: .9rem;
-    color: var(--plum);
-    background: rgba(255,255,255,.72);
-    border: 1.5px solid #eccfe0;
-    border-radius: 14px;
-    padding: 9px 14px;
+    font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: .88rem;
+    color: var(--ink);
+    background: rgba(255,255,255,.6);
+    border: 1.5px solid #e2d6c4;
+    border-radius: 12px;
+    padding: 9px 13px;
     cursor: pointer;
     display: inline-flex; align-items: center; gap: 7px;
-    box-shadow: 0 4px 14px -8px rgba(184,80,107,.5);
-    transition: transform .2s, background .2s, box-shadow .2s, opacity .35s;
+    transition: transform .18s, background .18s, box-shadow .18s, opacity .35s;
   }
-  .chip::before { content: ""; width: 12px; height: 12px; background: radial-gradient(circle at 30% 30%, #fff, var(--petal-b)); border-radius: 80% 0 80% 0; border: 1px solid #eccadd; }
-  .chip:hover { transform: translateY(-2px); background: #fff; box-shadow: 0 8px 18px -8px rgba(184,80,107,.6); }
+  .chip::before {
+    content: ""; width: 13px; height: 13px; border-radius: 62% 38% 62% 38%;
+    border: 1.5px solid var(--wire); background: transparent;
+  }
+  .chip:hover { transform: translateY(-2px); background: #fff; box-shadow: 0 6px 16px -9px rgba(69,58,48,.5); }
+  .chip:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
   .chip.gone { opacity: 0; transform: scale(.6); pointer-events: none; }
 
-  /* ---- message ---- */
-  #message { max-width: 600px; }
-  #message .mini-lily { font-size: 2.6rem; margin-bottom: 6px; }
-  #message h1 { font-size: clamp(2rem, 7vw, 3rem); color: var(--plum); }
-  #message .late { color: var(--gold); font-style: italic; font-family: 'Playfair Display', serif; margin: 6px 0 22px; }
+  .scrollcue {
+    margin-top: 26px;
+    opacity: 0; transform: translateY(-6px);
+    transition: opacity .6s ease, transform .6s ease;
+    pointer-events: none;
+    color: var(--ink-soft);
+    font-size: .9rem;
+  }
+  .scrollcue.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .scrollcue a { color: var(--ink-soft); text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; gap: 4px; }
+  .scrollcue .chev { font-size: 1.3rem; animation: bob 1.6s ease-in-out infinite; }
+  @keyframes bob { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(5px);} }
+
+  /* ---------- section: note ---------- */
+  #note { display: none; padding: 60px 0 90px; }
+  #note.reveal { display: block; }
+  #note .inner { animation: rise .8s ease both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px);} to { opacity: 1; transform: translateY(0);} }
+
+  #note h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(1.7rem, 7vw, 2.5rem);
+    text-align: center;
+    color: var(--ink);
+  }
+  #note .sub { text-align: center; color: var(--gold); font-family: 'Playfair Display', serif; font-style: italic; margin: 6px 0 26px; }
+
   .card {
-    background: rgba(255,255,255,.66);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,.8);
-    border-radius: 22px;
+    background: rgba(255,255,255,.55);
+    border: 1px solid rgba(255,255,255,.7);
+    border-radius: 18px;
     padding: 26px 24px;
-    text-align: left;
-    line-height: 1.8;
-    color: #4a2f45;
-    box-shadow: 0 24px 50px -24px rgba(90,61,82,.35);
-    font-size: 1.02rem;
+    line-height: 1.85;
+    color: #3f342b;
+    box-shadow: 0 20px 44px -26px rgba(69,58,48,.4);
   }
   .card p { margin-bottom: 15px; }
   .card p:last-child { margin-bottom: 0; }
-  .card .sign { text-align: right; font-family: 'Playfair Display', serif; font-style: italic; color: var(--plum-soft); margin-top: 6px; }
-  .whisper { margin-top: 22px; font-size: .82rem; color: var(--plum-soft); letter-spacing: .04em; }
+  .card .sign { text-align: right; font-family: 'Playfair Display', serif; font-style: italic; color: var(--ink-soft); margin-top: 4px; }
+  .once { text-align: center; font-size: .8rem; color: var(--ink-soft); margin-top: 20px; opacity: .8; }
 
-  /* ---- burned ---- */
-  #burned { max-width: 460px; }
-  #burned .rose { font-size: 3.4rem; filter: grayscale(.2); }
-  #burned h2 { font-size: clamp(1.5rem, 6vw, 2rem); margin: 12px 0 10px; color: var(--plum); }
-  #burned p { color: var(--plum-soft); line-height: 1.7; }
+  /* ---------- burned ---------- */
+  #burned {
+    display: none;
+    min-height: 100dvh;
+    flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 40px 22px;
+  }
+  #burned.show { display: flex; }
+  #burned .w { font-size: 3rem; margin-bottom: 8px; }
+  #burned h2 { font-family: 'Playfair Display', serif; font-weight: 600; font-size: clamp(1.5rem, 6vw, 2rem); color: var(--ink); }
+  #burned p { color: var(--ink-soft); margin-top: 10px; max-width: 340px; }
 
-  .sparkle { position: fixed; pointer-events: none; z-index: 5; font-size: 1.1rem; animation: spark .9s ease-out forwards; }
-  @keyframes spark { 0%{ transform: translate(0,0) scale(.4); opacity: 1;} 100%{ transform: translate(var(--dx), var(--dy)) scale(1.2); opacity: 0;} }
-
-  @media (max-width: 420px) {
-    .card { padding: 22px 18px; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    #lily.bloom, .scrollcue .chev { animation: none; }
   }
 </style>
 </head>
 <body>
-  <div class="bg-petals" id="bgPetals" aria-hidden="true"></div>
 
-  <div class="stage">
+  <main id="main">
 
-    <!-- INTRO -->
-    <section class="screen" id="intro">
-      <div class="eyebrow">sebuah kejutan kecil</div>
-      <h1>Hai, dyb 🌷</h1>
-      <p class="sub">ada sesuatu yang mau gw kasih ke lu.<br />telat sih... tapi niatnya beneran kok 😄</p>
-      <button class="btn" id="startBtn">Buka</button>
-    </section>
-
-    <!-- ASSEMBLE -->
-    <section class="screen" id="assemble">
-      <div class="eyebrow">rakit dulu ya</div>
-      <h2>Susun bunga lily-nya 🌸</h2>
-      <p class="hint">katanya lu jago bikin bunga dari pita kawat, kan? nah, sekarang giliran lu mekarin yang satu ini — klik tiap kelopaknya.</p>
+    <!-- BUILD -->
+    <section id="build">
+      <div class="kicker">buat dyb</div>
+      <h1>hai, dyb 👋</h1>
+      <p class="lead">gw bikinin sesuatu. susun dulu ya bunganya — klik kelopaknya satu-satu, nyambungin ke rangka kawatnya.</p>
 
       <div class="lily-wrap">
-        <svg id="lily" viewBox="0 0 400 400" role="img" aria-label="bunga lily yang sedang disusun">
+        <svg id="lily" viewBox="0 0 400 400" role="img" aria-label="bunga lily dari rangka kawat">
           <defs>
-            <radialGradient id="petalGrad" cx="50%" cy="88%" r="75%">
-              <stop offset="0%" stop-color="#ffd9e6" />
-              <stop offset="45%" stop-color="#fff2f7" />
-              <stop offset="100%" stop-color="#ffffff" />
+            <radialGradient id="ribbon" cx="50%" cy="86%" r="72%">
+              <stop offset="0%" stop-color="#fbe4ec" />
+              <stop offset="55%" stop-color="#fff6ef" />
+              <stop offset="100%" stop-color="#fffdf9" />
             </radialGradient>
-            <linearGradient id="stemGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#a7c39a" />
-              <stop offset="100%" stop-color="#7c9d6f" />
-            </linearGradient>
-            <filter id="soft"><feGaussianBlur stdDeviation="0.5" /></filter>
           </defs>
-
-          <circle class="receptacle" cx="200" cy="200" r="20" fill="#f4e2c2" opacity="0.0" />
           <g id="petals"></g>
           <g id="stamens"></g>
         </svg>
@@ -230,239 +201,161 @@
 
       <div class="counter" id="counter">0 / 6 kelopak</div>
       <div class="tray" id="tray"></div>
-    </section>
 
-    <!-- MESSAGE -->
-    <section class="screen" id="message">
-      <div class="mini-lily">🌷</div>
-      <h1>Selamat ulang tahun, dyb!</h1>
-      <div class="late">(iya iya, gw tau telat... maaf ya 😆)</div>
-      <div class="card">
-        <p>Bunga lily yang barusan lu susun itu — anggap aja hadiah kecil dari gw. Lu kan suka lily, dan lu juga yang jago bikin bunga dari pita kawat. Jadi kayaknya pas aja kalau yang ini pun lu sendiri yang mekarin. 🌸</p>
-        <p>Eh, ngomong-ngomong... masih inget nggak pas rapat IBASS? Gw sok tau nunjuk sesuatu, kirain apaan gitu — <strong>eh taunya KECOA</strong>, terus dia malah lari ke <em>kaki lu</em> 🪳😂 Maaf banget ya waktu itu wkwk. Tapi jujur, sampai sekarang itu jadi salah satu momen paling ngakak buat gw.</p>
-        <p>Pokoknya, selamat ultah ya (telat, hehe). Semoga tahun ini lancar semuanya — sehat, seneng, dan makin banyak momen ngakak kayak gitu. Makasih udah jadi temen yang asik. 🌼</p>
-        <p class="sign">— dari temen lu 🌷</p>
+      <div class="scrollcue" id="cue">
+        <a href="#note" id="cueLink">
+          <span>udah jadi — scroll ke bawah</span>
+          <span class="chev">˅</span>
+        </a>
       </div>
-      <p class="whisper">psst — pesan ini cuma bisa dibuka sekali. jadi... nikmatin ya 🥀</p>
     </section>
 
-    <!-- BURNED -->
-    <section class="screen" id="burned">
-      <div class="rose">🥀</div>
-      <h2>pesan ini sudah hangus...</h2>
-      <p>lu udah pernah bukanya kok.<br />semoga isinya masih lu inget 🌷</p>
+    <!-- NOTE -->
+    <section id="note">
+      <div class="wrap inner">
+        <h2>selamat ultah, dyb</h2>
+        <div class="sub">(telat, gw tau — maaf ya wkwk)</div>
+        <div class="card">
+          <p>Ini bunga lily — gw susun pake kawat, kayak yang biasa lu bikin. Lu suka lily kan? Yaudah, gw bikinin yang ini aja buat lu.</p>
+          <p>Btw inget nggak pas rapat IBASS? Gw nunjuk sesuatu sok tau, kirain apaan — eh taunya <strong>kecoa</strong>, terus malah lari ke <em>kaki lu</em> 🪳 Sori ya wkwk, tapi jujur itu ngakak parah sampe sekarang.</p>
+          <p>Yaudah gitu aja. Semoga tahun ini lancar, sehat-sehat, banyak senengnya. Makasih udah jadi temen yang asik.</p>
+          <p class="sign">— gw</p>
+        </div>
+        <p class="once">(psst, ini cuma bisa dibuka sekali)</p>
+      </div>
     </section>
 
-  </div>
+  </main>
+
+  <!-- BURNED -->
+  <section id="burned">
+    <div class="w">🥀</div>
+    <h2>yah, keburu kebuka</h2>
+    <p>pesannya emang cuma sekali. tapi santai, paling lu masih inget isinya kok.</p>
+  </section>
 
 <script>
 (function () {
   "use strict";
-  var VIEW_KEY = "gift-dyb-lily-viewed-v1";
+  var VIEW_KEY = "gift-dyb-v2";
+  var SVGNS = "http://www.w3.org/2000/svg";
 
-  // ---- background petals ----
-  var bg = document.getElementById("bgPetals");
-  for (var i = 0; i < 14; i++) {
-    var s = document.createElement("span");
-    s.style.left = (Math.random() * 100) + "%";
-    var dur = 9 + Math.random() * 9;
-    s.style.animationDuration = dur + "s";
-    s.style.animationDelay = (-Math.random() * dur) + "s";
-    var sc = 0.6 + Math.random() * 1.1;
-    s.style.transform = "scale(" + sc + ")";
-    bg.appendChild(s);
-  }
+  var main = document.getElementById("main");
+  var burned = document.getElementById("burned");
 
-  var screens = {
-    intro: document.getElementById("intro"),
-    assemble: document.getElementById("assemble"),
-    message: document.getElementById("message"),
-    burned: document.getElementById("burned")
-  };
-  function show(name) {
-    Object.keys(screens).forEach(function (k) {
-      screens[k].classList.toggle("active", k === name);
-    });
-    window.scrollTo(0, 0);
-  }
-
-  // ---- one-time gate ----
+  // one-time gate
   var viewed = false;
   try { viewed = localStorage.getItem(VIEW_KEY) === "1"; } catch (e) {}
-  if (viewed) {
-    show("burned");
-    return;
-  }
+  if (viewed) { main.style.display = "none"; burned.classList.add("show"); return; }
 
-  show("intro");
-
-  // ---- build lily petals ----
+  // ---- build lily (wire frame + ribbon petals) ----
   var petalsG = document.getElementById("petals");
   var stamensG = document.getElementById("stamens");
-  var PETAL_D = "M200,200 C168,150 170,92 200,44 C230,92 232,150 200,200 Z";
-  var SPOTS = [[196,168],[204,168],[192,180],[208,180],[200,186]];
-  var slots = [];
+  var PETAL_D = "M200,200 C170,152 172,96 200,50 C228,96 230,152 200,200 Z";
+  var fills = [];
 
-  for (var p = 0; p < 6; p++) {
-    var slot = document.createElementNS("http://www.w3.org/2000/svg", "g");
-    slot.setAttribute("transform", "rotate(" + (p * 60) + " 200 200)");
+  for (var i = 0; i < 6; i++) {
+    var slot = document.createElementNS(SVGNS, "g");
+    slot.setAttribute("transform", "rotate(" + (i * 60) + " 200 200)");
 
-    // wireframe "kawat" outline shown as a target before the petal is placed
-    var ghost = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    ghost.setAttribute("d", PETAL_D);
-    ghost.setAttribute("fill", "none");
-    ghost.setAttribute("stroke", "#d9b8cb");
-    ghost.setAttribute("stroke-width", "1.3");
-    ghost.setAttribute("stroke-dasharray", "3 5");
-    ghost.setAttribute("stroke-linecap", "round");
-    ghost.setAttribute("opacity", "0.55");
-    slot.appendChild(ghost);
+    // ribbon fill (revealed on place) — sits BEHIND the wire
+    var fill = document.createElementNS(SVGNS, "path");
+    fill.setAttribute("d", PETAL_D);
+    fill.setAttribute("fill", "url(#ribbon)");
+    fill.setAttribute("class", "petal-fill");
+    slot.appendChild(fill);
+    fills.push(fill);
 
-    var inner = document.createElementNS("http://www.w3.org/2000/svg", "g");
-    inner.setAttribute("class", "petal-inner");
+    // wire armature (always visible) — highlight + core stroke
+    var wireHi = document.createElementNS(SVGNS, "path");
+    wireHi.setAttribute("d", PETAL_D);
+    wireHi.setAttribute("fill", "none");
+    wireHi.setAttribute("stroke", "#e7dccb");
+    wireHi.setAttribute("stroke-width", "3.4");
+    wireHi.setAttribute("stroke-linejoin", "round");
+    slot.appendChild(wireHi);
 
-    var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    path.setAttribute("d", PETAL_D);
-    path.setAttribute("fill", "url(#petalGrad)");
-    path.setAttribute("stroke", "#f3c6d8");
-    path.setAttribute("stroke-width", "1.4");
-    inner.appendChild(path);
+    var wire = document.createElementNS(SVGNS, "path");
+    wire.setAttribute("d", PETAL_D);
+    wire.setAttribute("fill", "none");
+    wire.setAttribute("stroke", "#a99b8b");
+    wire.setAttribute("stroke-width", "1.4");
+    wire.setAttribute("stroke-linejoin", "round");
+    slot.appendChild(wire);
 
-    // subtle center vein
-    var vein = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    vein.setAttribute("d", "M200,196 C198,150 199,100 200,52");
+    // center vein wire
+    var vein = document.createElementNS(SVGNS, "path");
+    vein.setAttribute("d", "M200,196 C199,150 199,104 200,58");
     vein.setAttribute("fill", "none");
-    vein.setAttribute("stroke", "#f6d3e0");
-    vein.setAttribute("stroke-width", "1.2");
-    inner.appendChild(vein);
+    vein.setAttribute("stroke", "#bcae9c");
+    vein.setAttribute("stroke-width", "1");
+    vein.setAttribute("stroke-dasharray", "2 4");
+    vein.setAttribute("stroke-linecap", "round");
+    slot.appendChild(vein);
 
-    SPOTS.forEach(function (c) {
-      var dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      dot.setAttribute("cx", c[0]); dot.setAttribute("cy", c[1]); dot.setAttribute("r", "2.4");
-      dot.setAttribute("fill", "#b8506b"); dot.setAttribute("opacity", "0.7");
-      inner.appendChild(dot);
-    });
-
-    slot.appendChild(inner);
     petalsG.appendChild(slot);
-    slots.push(inner);
   }
 
-  // ---- stamens (revealed on bloom) ----
+  // ---- stamens (on bloom) ----
   for (var t = 0; t < 6; t++) {
-    var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    var g = document.createElementNS(SVGNS, "g");
     g.setAttribute("transform", "rotate(" + (t * 60 + 30) + " 200 200)");
-    var fil = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    fil.setAttribute("d", "M200,200 C198,175 199,155 200,138");
+    var fil = document.createElementNS(SVGNS, "path");
+    fil.setAttribute("d", "M200,198 C199,176 199,158 200,142");
     fil.setAttribute("fill", "none");
-    fil.setAttribute("stroke", "#e3c98f");
-    fil.setAttribute("stroke-width", "2.4");
+    fil.setAttribute("stroke", "#c9b483");
+    fil.setAttribute("stroke-width", "2");
     fil.setAttribute("stroke-linecap", "round");
-    var anther = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
-    anther.setAttribute("cx", "200"); anther.setAttribute("cy", "132");
-    anther.setAttribute("rx", "5"); anther.setAttribute("ry", "11");
-    anther.setAttribute("fill", "#c8772e");
-    anther.setAttribute("transform", "rotate(" + (t % 2 ? 12 : -12) + " 200 132)");
+    var anther = document.createElementNS(SVGNS, "ellipse");
+    anther.setAttribute("cx", "200"); anther.setAttribute("cy", "137");
+    anther.setAttribute("rx", "4.4"); anther.setAttribute("ry", "9");
+    anther.setAttribute("fill", "#b98341");
     g.appendChild(fil); g.appendChild(anther);
     stamensG.appendChild(g);
   }
-  // little center
-  var pistil = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-  pistil.setAttribute("cx", "200"); pistil.setAttribute("cy", "200"); pistil.setAttribute("r", "9");
-  pistil.setAttribute("fill", "#f0d9a8");
+  var pistil = document.createElementNS(SVGNS, "circle");
+  pistil.setAttribute("cx", "200"); pistil.setAttribute("cy", "200"); pistil.setAttribute("r", "7");
+  pistil.setAttribute("fill", "#e6d3a6");
   stamensG.appendChild(pistil);
 
-  // ---- tray chips ----
+  // ---- tray ----
   var tray = document.getElementById("tray");
   var counter = document.getElementById("counter");
-  var placed = 0;
-  var TOTAL = 6;
-  var chips = [];
+  var cue = document.getElementById("cue");
+  var note = document.getElementById("note");
+  var placed = 0, TOTAL = 6;
 
   for (var c = 0; c < TOTAL; c++) {
     var chip = document.createElement("button");
-    chip.className = "chip";
-    chip.type = "button";
-    chip.textContent = "kelopak";
+    chip.className = "chip"; chip.type = "button"; chip.textContent = "kelopak";
     chip.addEventListener("click", onPlace);
     tray.appendChild(chip);
-    chips.push(chip);
-  }
-
-  function sparkleAt(x, y) {
-    for (var k = 0; k < 6; k++) {
-      var el = document.createElement("div");
-      el.className = "sparkle";
-      el.textContent = ["✦", "✧", "·", "❀"][k % 4];
-      el.style.left = x + "px";
-      el.style.top = y + "px";
-      var ang = Math.random() * Math.PI * 2;
-      var dist = 22 + Math.random() * 34;
-      el.style.setProperty("--dx", Math.cos(ang) * dist + "px");
-      el.style.setProperty("--dy", Math.sin(ang) * dist + "px");
-      document.body.appendChild(el);
-      setTimeout((function (n) { return function () { n.remove(); }; })(el), 950);
-    }
   }
 
   function onPlace(ev) {
     var chip = ev.currentTarget;
     if (chip.classList.contains("gone")) return;
-    slots[placed].classList.add("placed");
+    fills[placed].classList.add("placed");
     placed++;
     chip.classList.add("gone");
-    var r = chip.getBoundingClientRect();
-    sparkleAt(r.left + r.width / 2, r.top + r.height / 2);
     counter.textContent = placed + " / " + TOTAL + " kelopak";
-    if (placed >= TOTAL) {
-      counter.textContent = "mekar sempurna 🌸";
-      bloom();
-    }
+    if (placed >= TOTAL) { counter.textContent = "jadi deh 🌿"; bloom(); }
   }
 
   function bloom() {
     var lily = document.getElementById("lily");
-    document.querySelector(".receptacle").setAttribute("opacity", "0");
-    setTimeout(function () { lily.classList.add("bloom"); }, 350);
-    setTimeout(reveal, 2100);
-  }
-
-  function reveal() {
-    try { localStorage.setItem(VIEW_KEY, "1"); } catch (e) {}
-    show("message");
-    petalShower();
-  }
-
-  function petalShower() {
-    for (var i = 0; i < 26; i++) {
-      (function (n) {
-        setTimeout(function () {
-          var el = document.createElement("span");
-          el.style.position = "fixed";
-          el.style.left = (Math.random() * 100) + "%";
-          el.style.top = "-6%";
-          el.style.width = el.style.height = (10 + Math.random() * 12) + "px";
-          el.style.background = "radial-gradient(circle at 30% 30%, #fff, #ffd9e6)";
-          el.style.borderRadius = "80% 0 80% 0";
-          el.style.zIndex = "6";
-          el.style.pointerEvents = "none";
-          el.style.opacity = ".85";
-          var dur = 3 + Math.random() * 2.5;
-          el.style.transition = "transform " + dur + "s linear, opacity " + dur + "s linear";
-          document.body.appendChild(el);
-          requestAnimationFrame(function () {
-            el.style.transform = "translateY(112vh) rotate(" + (360 + Math.random() * 360) + "deg)";
-            el.style.opacity = "0";
-          });
-          setTimeout(function () { el.remove(); }, dur * 1000 + 200);
-        }, n * 90);
-      })(i);
+    setTimeout(function () { lily.classList.add("bloom"); }, 300);
+    setTimeout(function () {
+      try { localStorage.setItem(VIEW_KEY, "1"); } catch (e) {}
+      note.classList.add("reveal");
+      cue.classList.add("show");
+    }, 1200);
+    // gentle auto-scroll after the reveal settles
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduce) {
+      setTimeout(function () { note.scrollIntoView({ behavior: "smooth", block: "start" }); }, 2400);
     }
   }
-
-  document.getElementById("startBtn").addEventListener("click", function () {
-    show("assemble");
-  });
 })();
 </script>
 </body>
