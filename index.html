@@ -74,14 +74,10 @@
   .lead { color: var(--ink2); max-width: 42ch; margin: 18px auto 0; font-size: 1.04rem; text-wrap: pretty; }
 
   /* build */
-  .lily-wrap { width: min(330px, 80vw); aspect-ratio: 1; margin: 22px auto 6px; filter: drop-shadow(0 24px 26px rgba(56,44,34,.14)); }
-  #lily { width: 100%; height: 100%; overflow: visible; }
-  .petal-fill { opacity: 0; transform: scale(0.12); transform-box: fill-box; transform-origin: bottom center; transition: transform .85s cubic-bezier(.18,.9,.28,1.2), opacity .55s ease; }
-  .petal-fill.placed { opacity: 1; transform: scale(1); }
-  #stamens { opacity: 0; transition: opacity .9s ease .15s; }
-  #lily.bloom #stamens { opacity: 1; }
-  #lily.bloom { animation: sway 6s ease-in-out infinite; transform-origin: 50% 90%; }
-  @keyframes sway { 0%,100%{ transform: rotate(-1deg);} 50%{ transform: rotate(1deg);} }
+  .lily-wrap { width: min(330px, 82vw); aspect-ratio: 1; margin: 18px auto 6px; display: grid; place-items: center; filter: drop-shadow(0 20px 22px rgba(56,44,34,.16)); }
+  #lilyCanvas { width: 100%; height: auto; transition: transform .5s; }
+  #lilyCanvas.bloom { animation: sway 6s ease-in-out infinite; transform-origin: 50% 68%; }
+  @keyframes sway { 0%,100%{ transform: rotate(-1.4deg);} 50%{ transform: rotate(1.4deg);} }
 
   .pips { display: flex; gap: 9px; margin: 8px 0 4px; }
   .pip { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--ink3); transition: all .5s cubic-bezier(.2,.8,.2,1.2); }
@@ -194,16 +190,7 @@
         <p class="lead">gw bikinin sesuatu — bunga dari kawat bulu, kayak yang biasa lu bikin. susun dulu ya, klik kelopaknya satu-satu.</p>
 
         <div class="lily-wrap">
-          <svg id="lily" viewBox="0 0 400 400" role="img" aria-label="bunga lily dari kawat bulu">
-            <defs>
-              <filter id="fuzz" x="-25%" y="-25%" width="150%" height="150%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="7" result="n" />
-                <feDisplacementMap in="SourceGraphic" in2="n" scale="3.4" xChannelSelector="R" yChannelSelector="G" />
-              </filter>
-            </defs>
-            <g id="petals"></g>
-            <g id="stamens"></g>
-          </svg>
+          <canvas id="lilyCanvas" width="640" height="640" role="img" aria-label="bunga 3D dari kawat bulu"></canvas>
         </div>
 
         <div class="pips" id="pips"></div>
@@ -341,47 +328,37 @@
   }
   function skitter() { tone(1400, 0.05, "square", 0.05, 0); tone(1100, 0.05, "square", 0.05, 0.05); }
 
-  /* ---- lily ---- */
-  var petalsG = document.getElementById("petals");
-  var stamensG = document.getElementById("stamens");
-  var PETAL_D = "M200,200 C170,152 172,96 200,50 C228,96 230,152 200,200 Z";
-  var fills = [];
-  for (var i = 0; i < 6; i++) {
-    var slot = document.createElementNS(SVGNS, "g");
-    slot.setAttribute("transform", "rotate(" + (i * 60) + " 200 200)");
-    var guide = document.createElementNS(SVGNS, "path");
-    guide.setAttribute("d", PETAL_D); guide.setAttribute("fill", "none");
-    guide.setAttribute("stroke", "#cdc0ab"); guide.setAttribute("stroke-width", "1.2");
-    guide.setAttribute("stroke-dasharray", "2 4"); slot.appendChild(guide);
-    var petal = document.createElementNS(SVGNS, "path");
-    petal.setAttribute("d", PETAL_D); petal.setAttribute("fill", "#fffdf8");
-    petal.setAttribute("stroke", "#e3cfa8"); petal.setAttribute("stroke-width", "7");
-    petal.setAttribute("stroke-linejoin", "round"); petal.setAttribute("filter", "url(#fuzz)");
-    petal.setAttribute("class", "petal-fill"); slot.appendChild(petal);
-    var vein = document.createElementNS(SVGNS, "path");
-    vein.setAttribute("d", "M200,196 C199,150 199,104 200,60"); vein.setAttribute("fill", "none");
-    vein.setAttribute("stroke", "#ecdcbe"); vein.setAttribute("stroke-width", "3");
-    vein.setAttribute("stroke-linecap", "round"); vein.setAttribute("filter", "url(#fuzz)");
-    vein.setAttribute("class", "petal-fill"); slot.appendChild(vein);
-    petalsG.appendChild(slot); fills.push(petal); fills.push(vein);
+  /* ---- 3D voxel flower (built incrementally) ---- */
+  function makeFlower() {
+    var W = "#fdf7ee", Wc = "#f1e2c6", Y = "#e8c24a", Yc = "#d7a52b";
+    var petals = [];
+    for (var i = 0; i < 6; i++) {
+      var ang = (i * 60) * Math.PI / 180, vox = [];
+      for (var r = 2; r <= 4; r++) {
+        var px = Math.round(4 + r * Math.cos(ang)), pz = Math.round(4 + r * Math.sin(ang));
+        vox.push({ x: px, y: (r <= 2 ? 1 : 0), z: pz, c: (r >= 4 ? Wc : W) });
+        if (r === 2 || r === 3) {
+          var ox = Math.round(Math.cos(ang + Math.PI / 2)), oz = Math.round(Math.sin(ang + Math.PI / 2));
+          vox.push({ x: px + ox, y: (r === 2 ? 1 : 0), z: pz + oz, c: W });
+          vox.push({ x: px - ox, y: (r === 2 ? 1 : 0), z: pz - oz, c: W });
+        }
+      }
+      petals.push(vox);
+    }
+    var center = [];
+    for (var cx = 3; cx <= 5; cx++) for (var cz = 3; cz <= 5; cz++) {
+      center.push({ x: cx, y: 0, z: cz, c: Y }); center.push({ x: cx, y: 1, z: cz, c: Y });
+    }
+    center.push({ x: 4, y: 2, z: 4, c: Yc });
+    return { petals: petals, center: center };
   }
-  for (var t = 0; t < 6; t++) {
-    var g = document.createElementNS(SVGNS, "g");
-    g.setAttribute("transform", "rotate(" + (t * 60 + 30) + " 200 200)");
-    var fil = document.createElementNS(SVGNS, "path");
-    fil.setAttribute("d", "M200,198 C199,176 199,158 200,142"); fil.setAttribute("fill", "none");
-    fil.setAttribute("stroke", "#e0c063"); fil.setAttribute("stroke-width", "3");
-    fil.setAttribute("stroke-linecap", "round"); fil.setAttribute("filter", "url(#fuzz)");
-    var anther = document.createElementNS(SVGNS, "ellipse");
-    anther.setAttribute("cx", "200"); anther.setAttribute("cy", "137");
-    anther.setAttribute("rx", "5"); anther.setAttribute("ry", "9");
-    anther.setAttribute("fill", "#e0a92e"); anther.setAttribute("filter", "url(#fuzz)");
-    g.appendChild(fil); g.appendChild(anther); stamensG.appendChild(g);
+  var FLOWER = makeFlower();
+  function drawFlower(n) {
+    var vox = FLOWER.center.slice();
+    for (var i = 0; i < n; i++) vox = vox.concat(FLOWER.petals[i]);
+    drawVoxels(document.getElementById("lilyCanvas"), vox);
   }
-  var pistil = document.createElementNS(SVGNS, "circle");
-  pistil.setAttribute("cx", "200"); pistil.setAttribute("cy", "200"); pistil.setAttribute("r", "8");
-  pistil.setAttribute("fill", "#efd98a"); pistil.setAttribute("filter", "url(#fuzz)");
-  stamensG.appendChild(pistil);
+  drawFlower(0);
 
   /* ---- assembly (pips) ---- */
   var tray = document.getElementById("tray");
@@ -399,16 +376,15 @@
   function onPlace(ev) {
     var chip = ev.currentTarget;
     if (chip.classList.contains("gone")) return;
-    fills[placed * 2].classList.add("placed");
-    fills[placed * 2 + 1].classList.add("placed");
     pipsEl.children[placed].classList.add("on");
     tone(SCALE[placed], 0.35, "triangle", 0.17, 0);
     placed++;
+    drawFlower(placed);
     chip.classList.add("gone");
     if (placed >= TOTAL) { capEl.textContent = "selesai"; bloom(); }
   }
   function bloom() {
-    var lily = document.getElementById("lily");
+    var lily = document.getElementById("lilyCanvas");
     setTimeout(function () { lily.classList.add("bloom"); chord(); }, 300);
     setTimeout(function () { cueBuild.classList.add("show"); }, 900);
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -488,11 +464,11 @@
     }
     return v;
   }
-  function renderVox(canvas, layers) {
+  function renderVox(canvas, layers) { drawVoxels(canvas, voxelsFrom(layers)); }
+  function drawVoxels(canvas, vox) {
     var ctx = canvas.getContext("2d");
     var CW = canvas.width, CH = canvas.height;
     ctx.clearRect(0, 0, CW, CH);
-    var vox = voxelsFrom(layers);
     if (!vox.length) return;
     var minX = 1e9, maxX = -1e9, minY = 1e9, maxY = -1e9;
     vox.forEach(function (p) {
@@ -522,18 +498,35 @@
   ];
   var CHARS = [
     { name: "Kecoa", blurb: "yang lari ke kaki lu waktu itu", w: 19, layers: [
-      [".....", ".bbb.", "bbbbb", ".bbb."], [".....", "..k..", ".bbb.", ".k.k."] ] },
+      [".k...k.", "..k.k..", "..kkk..", "kbbbbbk", "kbbbbbk", "kbbbbbk", ".bbbbb.", "..bbb.."],
+      [".......", ".......", ".......", "..bbb..", ".bbbbb.", ".bbbbb.", "..bbb..", "......."] ] },
     { name: "Lily", blurb: "bunga kesukaan lu", w: 19, layers: [
-      [".....", ".....", "..G..", ".....", "....."], [".....", ".....", "..G..", ".....", "....."],
-      ["..W..", ".WWW.", "WWGWW", ".WWW.", "..W.."], [".....", ".....", "..y..", ".....", "....."] ] },
+      [".....", ".....", ".GGG.", "..G..", "....."],
+      [".....", ".....", "..G..", ".....", "....."],
+      ["..W..", ".WWW.", "WWyWW", ".WWW.", "..W.."],
+      [".....", "..y..", ".yYy.", "..y..", "....."] ] },
     { name: "Kue", blurb: "jangan lupa make a wish", w: 19, layers: [
-      ["aaaa", "aaaa"], [".CC.", ".CC."], [".PP.", ".PP."], ["..r.", "...."], ["..y.", "...."] ] },
+      [".....", "aaaaa", "aaaaa", "....."],
+      [".....", ".CCC.", ".CCC.", "....."],
+      [".....", ".PPP.", ".PPP.", "....."],
+      [".....", ".PPP.", ".PPP.", "....."],
+      [".....", "r.r.r", ".....", "....."],
+      [".....", "y.y.y", ".....", "....."] ] },
     { name: "Beruang", blurb: "buat peluk pas sedih", w: 19, layers: [
-      ["....", ".bb.", ".bb."], ["....", "bbbb", "bbbb"], ["....", "bbbb", "bCCb"], ["....", "b..b", "...."] ] },
+      [".....", ".b.b.", ".b.b."],
+      [".....", "bbbbb", "bbbbb"],
+      [".....", "bbbbb", "bCCCb"],
+      [".....", ".bbb.", ".bbb."],
+      [".....", ".bbb.", ".bCb."],
+      [".....", ".b.b.", "....."] ] },
     { name: "Hantu", blurb: "cuma mau ngucapin, kok", w: 19, layers: [
-      ["WWWW", "WWWW"], ["WWWW", "WWWW"], ["WWWW", "WxxW"], [".WW.", ".WW."] ] },
+      ["WWWWW", "WWWWW", "W.W.W"],
+      ["WWWWW", "WWWWW", "WWWWW"],
+      ["WWWWW", "WWWWW", "WxWxW"],
+      [".WWW.", ".WWW.", ".WWW."],
+      ["..W..", ".WWW.", "..W.."] ] },
     { name: "Golden mpruy", blurb: "SECRET, langka banget", w: 6, secret: true, layers: [
-      ["DDD", "DDD"], ["DDD", "DDD"], ["DDD", "DDD"], ["ddd", "ddd"], ["d.d", "...."] ] }
+      ["DDD", "DDD"], ["DDD", "DDD"], ["DDD", "DDD"], ["ddd", "ddd"], ["d.d", "..."], [".d.", "..."] ] }
   ];
   function pickChar() {
     var total = 0; CHARS.forEach(function (c) { total += c.w; });
