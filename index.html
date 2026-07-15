@@ -74,10 +74,28 @@
   .lead { color: var(--ink2); max-width: 42ch; margin: 18px auto 0; font-size: 1.04rem; text-wrap: pretty; }
 
   /* build */
-  .lily-wrap { width: min(330px, 82vw); aspect-ratio: 1; margin: 18px auto 6px; display: grid; place-items: center; filter: drop-shadow(0 20px 22px rgba(56,44,34,.16)); }
-  #lilyCanvas { width: 100%; height: auto; transition: transform .5s; }
-  #lilyCanvas.bloom { animation: sway 6s ease-in-out infinite; transform-origin: 50% 68%; }
-  @keyframes sway { 0%,100%{ transform: rotate(-1.4deg);} 50%{ transform: rotate(1.4deg);} }
+  .lily-wrap { width: min(320px, 80vw); aspect-ratio: 1; margin: 10px auto 6px; }
+  .scene3d { width: 100%; height: 100%; perspective: 760px; display: grid; place-items: center; }
+  .flower { position: relative; width: 0; height: 0; transform-style: preserve-3d; transform: rotateX(56deg) rotateZ(0deg); filter: drop-shadow(0 34px 20px rgba(56,44,34,.2)); }
+  .flower.spin { animation: fspin 18s linear infinite; }
+  @keyframes fspin { from { transform: rotateX(56deg) rotateZ(0);} to { transform: rotateX(56deg) rotateZ(360deg);} }
+  .petal {
+    position: absolute; width: 72px; height: 116px; left: -36px; top: -116px; transform-origin: 50% 100%;
+    background: linear-gradient(to top, #eccdd6 0%, #fbeaee 42%, #ffffff 100%);
+    border-radius: 50% 50% 48% 48% / 62% 62% 38% 38%;
+    box-shadow: inset 0 -16px 24px rgba(206,140,160,.28), inset 0 10px 16px rgba(255,255,255,.75), 0 3px 8px rgba(56,44,34,.14);
+    opacity: 0; transform: rotateZ(calc(var(--i) * 60deg)) rotateX(-24deg) scale(0);
+    transition: transform .75s cubic-bezier(.2,.82,.28,1.2), opacity .5s ease;
+    backface-visibility: hidden;
+  }
+  .petal.on { opacity: 1; transform: rotateZ(calc(var(--i) * 60deg)) rotateX(-24deg) scale(1); }
+  .petal::after { content: ""; position: absolute; left: 50%; top: 12%; width: 2px; height: 66%; transform: translateX(-50%); background: linear-gradient(rgba(206,140,160,0), rgba(206,140,160,.4)); border-radius: 2px; }
+  .core {
+    position: absolute; width: 52px; height: 52px; left: -26px; top: -26px; border-radius: 50%;
+    background: radial-gradient(circle at 38% 32%, #ffe8a4 0%, #edc24c 55%, #cd9822 100%);
+    transform: translateZ(12px);
+    box-shadow: 0 0 0 5px rgba(238,204,120,.22), inset 0 -7px 11px rgba(150,100,20,.4), inset 0 5px 9px rgba(255,255,255,.55);
+  }
 
   .pips { display: flex; gap: 9px; margin: 8px 0 4px; }
   .pip { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--ink3); transition: all .5s cubic-bezier(.2,.8,.2,1.2); }
@@ -190,7 +208,17 @@
         <p class="lead">gw bikinin sesuatu — bunga dari kawat bulu, kayak yang biasa lu bikin. susun dulu ya, klik kelopaknya satu-satu.</p>
 
         <div class="lily-wrap">
-          <canvas id="lilyCanvas" width="640" height="640" role="img" aria-label="bunga 3D dari kawat bulu"></canvas>
+          <div class="scene3d">
+            <div class="flower" id="flower3d" role="img" aria-label="bunga 3D dari kawat bulu">
+              <span class="petal" style="--i:0"></span>
+              <span class="petal" style="--i:1"></span>
+              <span class="petal" style="--i:2"></span>
+              <span class="petal" style="--i:3"></span>
+              <span class="petal" style="--i:4"></span>
+              <span class="petal" style="--i:5"></span>
+              <span class="core"></span>
+            </div>
+          </div>
         </div>
 
         <div class="pips" id="pips"></div>
@@ -328,37 +356,9 @@
   }
   function skitter() { tone(1400, 0.05, "square", 0.05, 0); tone(1100, 0.05, "square", 0.05, 0.05); }
 
-  /* ---- 3D voxel flower (built incrementally) ---- */
-  function makeFlower() {
-    var W = "#fdf7ee", Wc = "#f1e2c6", Y = "#e8c24a", Yc = "#d7a52b";
-    var petals = [];
-    for (var i = 0; i < 6; i++) {
-      var ang = (i * 60) * Math.PI / 180, vox = [];
-      for (var r = 2; r <= 4; r++) {
-        var px = Math.round(4 + r * Math.cos(ang)), pz = Math.round(4 + r * Math.sin(ang));
-        vox.push({ x: px, y: (r <= 2 ? 1 : 0), z: pz, c: (r >= 4 ? Wc : W) });
-        if (r === 2 || r === 3) {
-          var ox = Math.round(Math.cos(ang + Math.PI / 2)), oz = Math.round(Math.sin(ang + Math.PI / 2));
-          vox.push({ x: px + ox, y: (r === 2 ? 1 : 0), z: pz + oz, c: W });
-          vox.push({ x: px - ox, y: (r === 2 ? 1 : 0), z: pz - oz, c: W });
-        }
-      }
-      petals.push(vox);
-    }
-    var center = [];
-    for (var cx = 3; cx <= 5; cx++) for (var cz = 3; cz <= 5; cz++) {
-      center.push({ x: cx, y: 0, z: cz, c: Y }); center.push({ x: cx, y: 1, z: cz, c: Y });
-    }
-    center.push({ x: 4, y: 2, z: 4, c: Yc });
-    return { petals: petals, center: center };
-  }
-  var FLOWER = makeFlower();
-  function drawFlower(n) {
-    var vox = FLOWER.center.slice();
-    for (var i = 0; i < n; i++) vox = vox.concat(FLOWER.petals[i]);
-    drawVoxels(document.getElementById("lilyCanvas"), vox);
-  }
-  drawFlower(0);
+  /* ---- smooth 3D flower (CSS transforms) ---- */
+  var flower3d = document.getElementById("flower3d");
+  var petalEls = flower3d.querySelectorAll(".petal");
 
   /* ---- assembly (pips) ---- */
   var tray = document.getElementById("tray");
@@ -377,15 +377,14 @@
     var chip = ev.currentTarget;
     if (chip.classList.contains("gone")) return;
     pipsEl.children[placed].classList.add("on");
+    if (petalEls[placed]) petalEls[placed].classList.add("on");
     tone(SCALE[placed], 0.35, "triangle", 0.17, 0);
     placed++;
-    drawFlower(placed);
     chip.classList.add("gone");
     if (placed >= TOTAL) { capEl.textContent = "selesai"; bloom(); }
   }
   function bloom() {
-    var lily = document.getElementById("lilyCanvas");
-    setTimeout(function () { lily.classList.add("bloom"); chord(); }, 300);
+    setTimeout(function () { flower3d.classList.add("spin"); chord(); }, 400);
     setTimeout(function () { cueBuild.classList.add("show"); }, 900);
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!reduce) setTimeout(function () { document.getElementById("bug").scrollIntoView({ behavior: "smooth" }); }, 2200);
