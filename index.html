@@ -17,11 +17,9 @@
     --gold: #bb9a4c;
     --sage: #93a986;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   html, body { min-height: 100%; }
-
   body {
     font-family: 'Quicksand', system-ui, sans-serif;
     color: var(--ink);
@@ -33,36 +31,32 @@
     line-height: 1.6;
     overflow-x: hidden;
   }
-
   .wrap { max-width: 560px; margin: 0 auto; padding: 0 22px; }
-
-  /* ---------- build ---------- */
-  #build {
+  section.screen {
     min-height: 100dvh;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 40px 22px 28px; position: relative;
+    text-align: center; padding: 46px 22px; position: relative;
   }
+
   .kicker { font-size: .74rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
-  #build h1 { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; font-size: clamp(2rem, 8vw, 2.8rem); }
-  .lead { color: var(--ink-soft); max-width: 390px; margin: 14px auto 4px; font-size: 1rem; }
+  h1.title { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; font-size: clamp(2rem, 8vw, 2.8rem); }
+  .lead { color: var(--ink-soft); max-width: 400px; margin: 14px auto 4px; font-size: 1rem; }
 
-  .lily-wrap { width: min(320px, 78vw); aspect-ratio: 1; margin: 10px auto 2px; }
+  /* ---- build ---- */
+  .lily-wrap { width: min(320px, 78vw); aspect-ratio: 1; margin: 12px auto 2px; }
   #lily { width: 100%; height: 100%; overflow: visible; }
-
   .petal-fill {
     opacity: 0; transform: scale(0.12);
     transform-box: fill-box; transform-origin: bottom center;
     transition: transform .8s cubic-bezier(.2,.85,.3,1.2), opacity .5s ease;
   }
   .petal-fill.placed { opacity: 1; transform: scale(1); }
-
   #stamens { opacity: 0; transition: opacity .9s ease .15s; }
   #lily.bloom #stamens { opacity: 1; }
   #lily.bloom { animation: sway 6s ease-in-out infinite; transform-origin: 50% 90%; }
   @keyframes sway { 0%,100%{ transform: rotate(-1deg);} 50%{ transform: rotate(1deg);} }
 
   .counter { font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); min-height: 1.1em; margin-top: 2px; font-variant-numeric: tabular-nums; }
-
   .tray { display: flex; flex-wrap: wrap; gap: 9px; justify-content: center; margin: 16px auto 0; max-width: 380px; }
   .chip {
     font-family: 'Quicksand', sans-serif; font-weight: 600; font-size: .88rem; color: var(--ink);
@@ -75,57 +69,61 @@
   .chip:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
   .chip.gone { opacity: 0; transform: scale(.6); pointer-events: none; }
 
-  .scrollcue { margin-top: 26px; opacity: 0; transform: translateY(-6px); transition: opacity .6s, transform .6s; pointer-events: none; color: var(--ink-soft); font-size: .9rem; }
-  .scrollcue.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
-  .scrollcue a { color: var(--ink-soft); text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; gap: 4px; }
-  .scrollcue .chev { font-size: 1.3rem; animation: bob 1.6s ease-in-out infinite; }
+  .cue { margin-top: 26px; opacity: 0; transform: translateY(-6px); transition: opacity .6s, transform .6s; pointer-events: none; color: var(--ink-soft); font-size: .9rem; }
+  .cue.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .cue a { color: var(--ink-soft); text-decoration: none; display: inline-flex; flex-direction: column; align-items: center; gap: 4px; }
+  .cue .chev { font-size: 1.3rem; animation: bob 1.6s ease-in-out infinite; }
   @keyframes bob { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(5px);} }
 
-  /* ---------- note ---------- */
-  #note { display: none; padding: 60px 0 100px; }
-  #note.reveal { display: block; }
-  #note .inner { animation: rise .8s ease both; }
-  @keyframes rise { from { opacity: 0; transform: translateY(16px);} to { opacity: 1; transform: translateY(0);} }
-  #note h2 { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; font-size: clamp(1.9rem, 8vw, 2.7rem); text-align: center; }
+  .sound-note { margin-top: 14px; font-size: .74rem; color: var(--ink-soft); opacity: .7; letter-spacing: .04em; }
 
-  .card { background: rgba(255,255,255,.55); border: 1px solid rgba(255,255,255,.7); border-radius: 18px; padding: 28px 26px; line-height: 1.9; color: #3f342b; box-shadow: 0 20px 44px -26px rgba(69,58,48,.4); margin-top: 22px; font-size: 1.06rem; }
-  .card p { margin-bottom: 15px; }
-  .card p:last-child { margin-bottom: 0; }
-  .card .sign { text-align: right; font-family: 'Playfair Display', serif; font-style: italic; color: var(--ink-soft); margin-top: 8px; }
+  /* ---- bug section ---- */
+  #bug .lead { max-width: 360px; }
+  .catch { font-size: .82rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-top: 18px; min-height: 1.2em; }
 
-  .roach-hint { text-align: center; font-size: .86rem; color: var(--ink-soft); margin-top: 22px; }
-  .roach-hint a { color: var(--sage); font-weight: 600; text-decoration: none; border-bottom: 1px dashed var(--sage); }
-  .once { text-align: center; font-size: .8rem; color: var(--ink-soft); margin-top: 16px; opacity: .75; }
-
-  /* roach */
-  #roach { position: fixed; left: -60px; top: -60px; font-size: 30px; z-index: 40; cursor: pointer; user-select: none; will-change: left, top, transform; transition: left .9s linear, top .9s linear, transform .25s ease; display: none; filter: drop-shadow(0 2px 2px rgba(0,0,0,.25)); }
+  /* roach (svg) */
+  #roach { position: fixed; left: -80px; top: -80px; width: 46px; height: 46px; z-index: 40; cursor: pointer; will-change: left, top, transform; transition: left .9s linear, top .9s linear, transform .25s ease; display: none; }
   #roach.on { display: block; }
-  @keyframes wiggle { 0%,100%{ transform: rotate(var(--rot)) translateY(0);} 50%{ transform: rotate(var(--rot)) translateY(-1.5px);} }
-  #toast { position: fixed; left: 50%; bottom: 40px; transform: translateX(-50%) translateY(20px); background: rgba(69,58,48,.92); color: #fff; font-weight: 600; font-size: .9rem; padding: 10px 18px; border-radius: 999px; z-index: 60; opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s; }
+  #roach .leg { animation: skitter .28s linear infinite; transform-origin: center; }
+  @keyframes skitter { 0%,100%{ transform: rotate(-4deg);} 50%{ transform: rotate(4deg);} }
+  #toast { position: fixed; left: 50%; bottom: 42px; transform: translateX(-50%) translateY(20px); background: rgba(69,58,48,.92); color: #fff; font-weight: 600; font-size: .9rem; padding: 10px 18px; border-radius: 999px; z-index: 60; opacity: 0; pointer-events: none; transition: opacity .3s, transform .3s; }
   #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  /* ---------- burned ---------- */
-  #burned { display: none; min-height: 100dvh; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 22px; }
+  /* ---- note (final) ---- */
+  #note h2 { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; font-size: clamp(2.1rem, 9vw, 3rem); }
+  .msg { max-width: 460px; margin: 26px auto 0; }
+  .seq { opacity: 0; transform: translateY(14px); transition: opacity .8s ease, transform .8s ease; }
+  .seq.in { opacity: 1; transform: translateY(0); }
+  .msg .line { font-size: 1.14rem; line-height: 1.85; color: #3f342b; margin-bottom: 6px; }
+  .msg .sign { font-family: 'Playfair Display', serif; font-style: italic; color: var(--ink-soft); font-size: 1.2rem; margin-top: 22px; }
+  .once { font-size: .78rem; color: var(--ink-soft); margin-top: 30px; opacity: .7; }
+
+  canvas#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 30; }
+
+  /* ---- burned ---- */
+  #burned { display: none; }
   #burned.show { display: flex; }
-  #burned .w { font-size: 3rem; margin-bottom: 8px; }
+  #burned svg { width: 64px; height: 64px; margin-bottom: 14px; }
   #burned h2 { font-family: 'Playfair Display', serif; font-weight: 600; font-size: clamp(1.5rem, 6vw, 2rem); }
   #burned p { color: var(--ink-soft); margin-top: 10px; max-width: 340px; }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    #lily.bloom, .scrollcue .chev, #roach { animation: none; }
+    #lily.bloom, .cue .chev, #roach .leg { animation: none; }
   }
 </style>
 </head>
 <body>
 
+  <canvas id="confetti"></canvas>
+
   <main id="main">
 
-    <!-- BUILD -->
-    <section id="build">
+    <!-- 1) BUILD -->
+    <section class="screen" id="build">
       <div class="kicker">buat dyb</div>
-      <h1>hai, dyb 👋</h1>
-      <p class="lead">gw bikinin sesuatu — bunga dari <strong>kawat bulu</strong>, kayak yang biasa lu bikin. susun dulu ya, klik kelopaknya satu-satu.</p>
+      <h1 class="title">hai, dyb</h1>
+      <p class="lead">gw bikinin sesuatu — bunga dari kawat bulu, kayak yang biasa lu bikin. susun dulu ya, klik kelopaknya satu-satu.</p>
 
       <div class="lily-wrap">
         <svg id="lily" viewBox="0 0 400 400" role="img" aria-label="bunga lily dari kawat bulu">
@@ -142,34 +140,59 @@
 
       <div class="counter" id="counter">0 / 6 kelopak</div>
       <div class="tray" id="tray"></div>
+      <p class="sound-note">nyalain suara ya, biar ada bunyinya pas nyusun</p>
 
-      <div class="scrollcue" id="cue">
-        <a href="#note" id="cueLink"><span>udah jadi — scroll ke bawah</span><span class="chev">˅</span></a>
+      <div class="cue" id="cueBuild">
+        <a href="#bug"><span>selesai — scroll ke bawah</span><span class="chev">˅</span></a>
       </div>
     </section>
 
-    <!-- NOTE -->
-    <section id="note">
-      <div class="wrap inner">
-        <h2>HBD, dybb 🎉</h2>
-        <div class="card">
-          <p>Sorry gw gak ngasih seberapa. Semoga lu sukses, dan dikasih kesehatan — buat lu sama keluarga lu.</p>
-          <p class="sign">— dari mpruy</p>
-        </div>
-        <p class="roach-hint">eh btw... ada yang lari-lari tuh 🪳 <a href="#" id="callRoach">pencet deh</a> <br />(inget kecoa pas rapat IBASS? wkwk)</p>
-        <p class="once">(psst, ini cuma bisa dibuka sekali)</p>
+    <!-- 2) BUG -->
+    <section class="screen" id="bug">
+      <div class="kicker">eh, ada yang nyasar</div>
+      <h1 class="title">awas, kecoa</h1>
+      <p class="lead">inget nggak pas rapat IBASS? gw nunjuk sesuatu, kirain apaan — taunya kecoa, terus lari ke kaki lu. nih dia balik lagi. coba pencet, usir kayak dulu.</p>
+      <div class="catch" id="catch">cari &amp; pencet dia...</div>
+      <div class="cue show" id="cueBug">
+        <a href="#note"><span>lanjut ke bawah</span><span class="chev">˅</span></a>
+      </div>
+    </section>
+
+    <!-- 3) NOTE (final) -->
+    <section class="screen" id="note">
+      <div class="msg">
+        <h2 class="seq" id="s0">HBD, dybb</h2>
+        <p class="line seq" id="s1">sorry gw gak ngasih seberapa.</p>
+        <p class="line seq" id="s2">semoga lu sukses, dan dikasih kesehatan —</p>
+        <p class="line seq" id="s3">buat lu sama keluarga lu.</p>
+        <p class="sign seq" id="s4">— dari mpruy</p>
+        <p class="once seq" id="s5">(psst, ini cuma bisa dibuka sekali)</p>
       </div>
     </section>
 
   </main>
 
-  <!-- interactive roach + toast -->
-  <div id="roach" aria-hidden="true">🪳</div>
+  <!-- interactive roach (svg, no emoji) -->
+  <svg id="roach" viewBox="0 0 60 60" aria-hidden="true">
+    <g stroke="#4a3320" stroke-width="2.4" stroke-linecap="round" class="leg" fill="none">
+      <path d="M22,24 L8,16" /><path d="M22,32 L6,32" /><path d="M22,40 L9,48" />
+      <path d="M38,24 L52,16" /><path d="M38,32 L54,32" /><path d="M38,40 L51,48" />
+    </g>
+    <path d="M30,8 C24,6 20,4 16,2" stroke="#4a3320" stroke-width="1.8" fill="none" stroke-linecap="round" />
+    <path d="M30,8 C36,6 40,4 44,2" stroke="#4a3320" stroke-width="1.8" fill="none" stroke-linecap="round" />
+    <ellipse cx="30" cy="34" rx="15" ry="21" fill="#5a3f28" />
+    <ellipse cx="30" cy="20" rx="10" ry="9" fill="#4a3320" />
+    <ellipse cx="30" cy="34" rx="6" ry="16" fill="#6b4d33" opacity=".7" />
+  </svg>
   <div id="toast"></div>
 
   <!-- BURNED -->
-  <section id="burned">
-    <div class="w">🥀</div>
+  <section class="screen" id="burned">
+    <svg viewBox="0 0 64 64" fill="none" stroke="#a99b8b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M32 58 V30" />
+      <path d="M32 34 C20 32 16 22 18 14 C28 16 33 24 32 34 Z" fill="#e6ddd0" stroke="#c9bda9" />
+      <path d="M40 46 C46 44 49 40 49 34" />
+    </svg>
     <h2>yah, keburu kebuka</h2>
     <p>pesannya emang cuma sekali. tapi santai, paling lu masih inget isinya kok.</p>
   </section>
@@ -177,9 +200,8 @@
 <script>
 (function () {
   "use strict";
-  var VIEW_KEY = "gift-dyb-v3";
+  var VIEW_KEY = "gift-dyb-v4";
   var SVGNS = "http://www.w3.org/2000/svg";
-
   var main = document.getElementById("main");
   var burned = document.getElementById("burned");
 
@@ -187,178 +209,224 @@
   try { viewed = localStorage.getItem(VIEW_KEY) === "1"; } catch (e) {}
   if (viewed) { main.style.display = "none"; burned.classList.add("show"); return; }
 
-  // ---- pipe-cleaner (kawat bulu) lily ----
+  /* ---------- sound (Web Audio, synthesized) ---------- */
+  var actx = null;
+  function audio() {
+    if (actx) { if (actx.state === "suspended") actx.resume(); return actx; }
+    try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { actx = null; }
+    return actx;
+  }
+  function tone(freq, dur, type, vol, when) {
+    var a = audio(); if (!a) return;
+    var t0 = a.currentTime + (when || 0);
+    var o = a.createOscillator(), g = a.createGain();
+    o.type = type || "triangle"; o.frequency.value = freq;
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(vol || 0.16, t0 + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + (dur || 0.2));
+    o.connect(g); g.connect(a.destination);
+    o.start(t0); o.stop(t0 + (dur || 0.2) + 0.02);
+  }
+  // pentatonic ascend, one note per petal
+  var SCALE = [523.25, 587.33, 659.25, 783.99, 880.0, 1046.5];
+  function chord() {
+    tone(523.25, 0.7, "triangle", 0.13, 0);
+    tone(659.25, 0.7, "triangle", 0.11, 0.04);
+    tone(783.99, 0.9, "triangle", 0.10, 0.08);
+    tone(1046.5, 1.1, "sine", 0.08, 0.14);
+  }
+  function skitter() { tone(1400, 0.05, "square", 0.05, 0); tone(1100, 0.05, "square", 0.05, 0.05); }
+
+  /* ---------- pipe-cleaner lily ---------- */
   var petalsG = document.getElementById("petals");
   var stamensG = document.getElementById("stamens");
   var PETAL_D = "M200,200 C170,152 172,96 200,50 C228,96 230,152 200,200 Z";
   var fills = [];
-
   for (var i = 0; i < 6; i++) {
     var slot = document.createElementNS(SVGNS, "g");
     slot.setAttribute("transform", "rotate(" + (i * 60) + " 200 200)");
-
-    // faint bare-wire guide (empty slot)
     var guide = document.createElementNS(SVGNS, "path");
-    guide.setAttribute("d", PETAL_D);
-    guide.setAttribute("fill", "none");
-    guide.setAttribute("stroke", "#cdc0ab");
-    guide.setAttribute("stroke-width", "1.2");
-    guide.setAttribute("stroke-dasharray", "2 4");
-    slot.appendChild(guide);
-
-    // fuzzy pipe-cleaner petal (filled + furry edge)
+    guide.setAttribute("d", PETAL_D); guide.setAttribute("fill", "none");
+    guide.setAttribute("stroke", "#cdc0ab"); guide.setAttribute("stroke-width", "1.2");
+    guide.setAttribute("stroke-dasharray", "2 4"); slot.appendChild(guide);
     var petal = document.createElementNS(SVGNS, "path");
-    petal.setAttribute("d", PETAL_D);
-    petal.setAttribute("fill", "#fffdf8");
-    petal.setAttribute("stroke", "#e3cfa8");
-    petal.setAttribute("stroke-width", "7");
-    petal.setAttribute("stroke-linejoin", "round");
-    petal.setAttribute("filter", "url(#fuzz)");
-    petal.setAttribute("class", "petal-fill");
-    slot.appendChild(petal);
-
-    // inner fuzzy vein (the wire core)
+    petal.setAttribute("d", PETAL_D); petal.setAttribute("fill", "#fffdf8");
+    petal.setAttribute("stroke", "#e3cfa8"); petal.setAttribute("stroke-width", "7");
+    petal.setAttribute("stroke-linejoin", "round"); petal.setAttribute("filter", "url(#fuzz)");
+    petal.setAttribute("class", "petal-fill"); slot.appendChild(petal);
     var vein = document.createElementNS(SVGNS, "path");
-    vein.setAttribute("d", "M200,196 C199,150 199,104 200,60");
-    vein.setAttribute("fill", "none");
-    vein.setAttribute("stroke", "#ecdcbe");
-    vein.setAttribute("stroke-width", "3");
-    vein.setAttribute("stroke-linecap", "round");
-    vein.setAttribute("filter", "url(#fuzz)");
-    vein.setAttribute("class", "petal-fill");
-    slot.appendChild(vein);
-
-    petalsG.appendChild(slot);
-    fills.push(petal); fills.push(vein);
+    vein.setAttribute("d", "M200,196 C199,150 199,104 200,60"); vein.setAttribute("fill", "none");
+    vein.setAttribute("stroke", "#ecdcbe"); vein.setAttribute("stroke-width", "3");
+    vein.setAttribute("stroke-linecap", "round"); vein.setAttribute("filter", "url(#fuzz)");
+    vein.setAttribute("class", "petal-fill"); slot.appendChild(vein);
+    petalsG.appendChild(slot); fills.push(petal); fills.push(vein);
   }
-
-  // ---- fuzzy stamens (on bloom) ----
   for (var t = 0; t < 6; t++) {
     var g = document.createElementNS(SVGNS, "g");
     g.setAttribute("transform", "rotate(" + (t * 60 + 30) + " 200 200)");
     var fil = document.createElementNS(SVGNS, "path");
-    fil.setAttribute("d", "M200,198 C199,176 199,158 200,142");
-    fil.setAttribute("fill", "none");
-    fil.setAttribute("stroke", "#e0c063");
-    fil.setAttribute("stroke-width", "3");
-    fil.setAttribute("stroke-linecap", "round");
-    fil.setAttribute("filter", "url(#fuzz)");
+    fil.setAttribute("d", "M200,198 C199,176 199,158 200,142"); fil.setAttribute("fill", "none");
+    fil.setAttribute("stroke", "#e0c063"); fil.setAttribute("stroke-width", "3");
+    fil.setAttribute("stroke-linecap", "round"); fil.setAttribute("filter", "url(#fuzz)");
     var anther = document.createElementNS(SVGNS, "ellipse");
     anther.setAttribute("cx", "200"); anther.setAttribute("cy", "137");
     anther.setAttribute("rx", "5"); anther.setAttribute("ry", "9");
-    anther.setAttribute("fill", "#e0a92e");
-    anther.setAttribute("filter", "url(#fuzz)");
-    g.appendChild(fil); g.appendChild(anther);
-    stamensG.appendChild(g);
+    anther.setAttribute("fill", "#e0a92e"); anther.setAttribute("filter", "url(#fuzz)");
+    g.appendChild(fil); g.appendChild(anther); stamensG.appendChild(g);
   }
   var pistil = document.createElementNS(SVGNS, "circle");
   pistil.setAttribute("cx", "200"); pistil.setAttribute("cy", "200"); pistil.setAttribute("r", "8");
   pistil.setAttribute("fill", "#efd98a"); pistil.setAttribute("filter", "url(#fuzz)");
   stamensG.appendChild(pistil);
 
-  // ---- tray / assembly ----
+  /* ---------- assembly ---------- */
   var tray = document.getElementById("tray");
   var counter = document.getElementById("counter");
-  var cue = document.getElementById("cue");
-  var note = document.getElementById("note");
-  var placedPairs = 0, TOTAL = 6;
-
+  var cueBuild = document.getElementById("cueBuild");
+  var placed = 0, TOTAL = 6;
   for (var c = 0; c < TOTAL; c++) {
     var chip = document.createElement("button");
     chip.className = "chip"; chip.type = "button"; chip.textContent = "kelopak";
     chip.addEventListener("click", onPlace);
     tray.appendChild(chip);
   }
-
   function onPlace(ev) {
     var chip = ev.currentTarget;
     if (chip.classList.contains("gone")) return;
-    // each petal = 2 fill elements (petal + vein)
-    fills[placedPairs * 2].classList.add("placed");
-    fills[placedPairs * 2 + 1].classList.add("placed");
-    placedPairs++;
+    fills[placed * 2].classList.add("placed");
+    fills[placed * 2 + 1].classList.add("placed");
+    tone(SCALE[placed], 0.35, "triangle", 0.17, 0);
+    placed++;
     chip.classList.add("gone");
-    counter.textContent = placedPairs + " / " + TOTAL + " kelopak";
-    if (placedPairs >= TOTAL) { counter.textContent = "jadi deh 🌿"; bloom(); }
+    counter.textContent = placed + " / " + TOTAL + " kelopak";
+    if (placed >= TOTAL) { counter.textContent = "selesai"; bloom(); }
   }
-
   function bloom() {
     var lily = document.getElementById("lily");
-    setTimeout(function () { lily.classList.add("bloom"); }, 300);
-    setTimeout(function () {
-      try { localStorage.setItem(VIEW_KEY, "1"); } catch (e) {}
-      note.classList.add("reveal");
-      cue.classList.add("show");
-    }, 1200);
+    setTimeout(function () { lily.classList.add("bloom"); chord(); }, 300);
+    setTimeout(function () { cueBuild.classList.add("show"); }, 900);
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!reduce) {
-      setTimeout(function () {
-        note.scrollIntoView({ behavior: "smooth", block: "start" });
-        startRoach();
-      }, 2600);
-    } else {
-      setTimeout(startRoach, 1400);
-    }
+    if (!reduce) setTimeout(function () { document.getElementById("bug").scrollIntoView({ behavior: "smooth" }); }, 2200);
   }
 
-  // ---- interactive kecoa ----
+  /* ---------- interactive roach ---------- */
   var roach = document.getElementById("roach");
   var toast = document.getElementById("toast");
-  var roachTimer = null, roachAlive = false;
-
-  function rnd(min, max) { return Math.random() * (max - min) + min; }
-
+  var catchLbl = document.getElementById("catch");
+  var roachTimer = null, alive = false, caught = 0;
+  function rnd(a, b) { return Math.random() * (b - a) + a; }
   function crawlTo(x, y) {
-    var cx = parseFloat(roach.style.left) || x;
-    var cy = parseFloat(roach.style.top) || y;
+    var cx = parseFloat(roach.style.left) || x, cy = parseFloat(roach.style.top) || y;
     var ang = Math.atan2(y - cy, x - cx) * 180 / Math.PI + 90;
-    roach.style.setProperty("--rot", ang + "deg");
     roach.style.transform = "rotate(" + ang + "deg)";
-    roach.style.left = x + "px";
-    roach.style.top = y + "px";
+    roach.style.left = x + "px"; roach.style.top = y + "px";
   }
-
   function wander() {
-    if (!roachAlive) return;
-    var w = window.innerWidth, h = window.innerHeight;
-    crawlTo(rnd(30, w - 50), rnd(h * 0.35, h - 70));
-    roachTimer = setTimeout(wander, rnd(900, 1600));
+    if (!alive) return;
+    crawlTo(rnd(24, window.innerWidth - 60), rnd(window.innerHeight * 0.3, window.innerHeight - 80));
+    roachTimer = setTimeout(wander, rnd(850, 1500));
   }
-
   function startRoach() {
-    if (roachAlive) return;
-    roachAlive = true;
+    if (alive) return; alive = true;
     roach.classList.add("on");
-    roach.style.left = (window.innerWidth * 0.15) + "px";
-    roach.style.top = (window.innerHeight - 60) + "px";
-    roachTimer = setTimeout(wander, 400);
+    roach.style.left = (window.innerWidth * 0.2) + "px";
+    roach.style.top = (window.innerHeight - 70) + "px";
+    roachTimer = setTimeout(wander, 350);
   }
-
-  function showToast(msg) {
-    toast.textContent = msg;
-    toast.classList.add("show");
-    setTimeout(function () { toast.classList.remove("show"); }, 1600);
-  }
-
-  function scare() {
-    if (!roachAlive) return;
-    roachAlive = false;
-    clearTimeout(roachTimer);
-    // dart off screen fast
-    roach.style.transition = "left .5s ease-in, top .5s ease-in, transform .2s";
-    crawlTo(rnd(20, window.innerWidth - 40), window.innerHeight + 80);
-    showToast("KABUR 🪳💨 (kayak pas IBASS wkwk)");
+  function stopRoach() { alive = false; clearTimeout(roachTimer); roach.classList.remove("on"); }
+  function showToast(m) { toast.textContent = m; toast.classList.add("show"); setTimeout(function(){ toast.classList.remove("show"); }, 1500); }
+  function scare(e) {
+    if (e) e.preventDefault();
+    if (!alive) { startRoach(); return; }
+    alive = false; clearTimeout(roachTimer); caught++;
+    skitter();
+    roach.style.transition = "left .45s ease-in, top .45s ease-in, transform .2s";
+    crawlTo(rnd(20, window.innerWidth - 40), window.innerHeight + 90);
+    showToast("kabur! kayak pas IBASS dulu");
+    if (catchLbl) catchLbl.textContent = caught >= 2 ? "mantap, dia kabur lagi" : "nah gitu, kabur dia";
     setTimeout(function () {
       roach.classList.remove("on");
       roach.style.transition = "left .9s linear, top .9s linear, transform .25s ease";
-    }, 520);
-    // come back after a bit
-    setTimeout(startRoach, 4500);
+    }, 480);
+    setTimeout(function () { if (isBugVisible()) startRoach(); }, 4200);
+  }
+  roach.addEventListener("click", scare);
+
+  /* ---------- observers: roach when #bug in view, sequence + confetti when #note in view ---------- */
+  var bugEl = document.getElementById("bug"), noteEl = document.getElementById("note");
+  var bugVisible = false;
+  function isBugVisible() { return bugVisible; }
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (en.target === bugEl) {
+          bugVisible = en.isIntersecting && en.intersectionRatio > 0.5;
+          if (bugVisible) startRoach(); else stopRoach();
+        }
+      });
+    }, { threshold: [0, 0.5, 1] }).observe(bugEl);
+
+    var noteDone = false;
+    new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (en.isIntersecting && en.intersectionRatio > 0.45 && !noteDone) {
+          noteDone = true;
+          try { localStorage.setItem(VIEW_KEY, "1"); } catch (e) {}
+          runNote();
+        }
+      });
+    }, { threshold: [0, 0.45, 1] }).observe(noteEl);
+  } else {
+    startRoach(); runNote();
   }
 
-  roach.addEventListener("click", scare);
-  var callRoach = document.getElementById("callRoach");
-  if (callRoach) callRoach.addEventListener("click", function (e) { e.preventDefault(); startRoach(); });
+  function runNote() {
+    var ids = ["s0", "s1", "s2", "s3", "s4", "s5"];
+    ids.forEach(function (id, k) {
+      setTimeout(function () {
+        var el = document.getElementById(id);
+        if (el) el.classList.add("in");
+        if (k === 0) confetti();
+      }, 260 + k * 620);
+    });
+  }
+
+  /* ---------- confetti (canvas, from fajarghifar idea, no emoji) ---------- */
+  function confetti() {
+    var cv = document.getElementById("confetti");
+    var ctx = cv.getContext("2d");
+    var W = cv.width = window.innerWidth, H = cv.height = window.innerHeight;
+    var colors = ["#bb9a4c", "#93a986", "#d9b3bd", "#e0c063", "#8a6f57", "#fffdf8"];
+    var P = [], N = 130;
+    for (var i = 0; i < N; i++) {
+      P.push({
+        x: W / 2 + rnd(-60, 60), y: H * 0.32 + rnd(-30, 30),
+        vx: rnd(-6, 6), vy: rnd(-11, -3),
+        s: rnd(5, 10), c: colors[(Math.random() * colors.length) | 0],
+        rot: rnd(0, 6.28), vr: rnd(-0.3, 0.3), life: 0, max: rnd(90, 150)
+      });
+    }
+    var run = true;
+    function frame() {
+      if (!run) return;
+      ctx.clearRect(0, 0, W, H);
+      var living = 0;
+      for (var i = 0; i < P.length; i++) {
+        var p = P[i];
+        p.life++; if (p.life > p.max) continue;
+        living++;
+        p.vy += 0.28; p.x += p.vx; p.y += p.vy; p.vx *= 0.99; p.rot += p.vr;
+        var alpha = Math.max(0, 1 - p.life / p.max);
+        ctx.save(); ctx.globalAlpha = alpha; ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+        ctx.fillStyle = p.c; ctx.fillRect(-p.s / 2, -p.s / 2, p.s, p.s * 0.6);
+        ctx.restore();
+      }
+      if (living > 0) requestAnimationFrame(frame);
+      else { ctx.clearRect(0, 0, W, H); run = false; }
+    }
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduce) requestAnimationFrame(frame);
+  }
 })();
 </script>
 </body>
